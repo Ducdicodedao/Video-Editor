@@ -1,0 +1,12 @@
+.wrapper {
+    //display: flex;
+    width: 356px;
+}
+.container {
+    width: var(--default-layout-width);
+    display: flex;
+}
+
+.content {
+    flex: 1;
+}
