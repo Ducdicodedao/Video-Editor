@@ -9,7 +9,7 @@ import Solution from '~/pages/Solution';
 
 const publicRoutes = [
     { path: configRouter.home, component: Home },
-    { path: configRouter.login, component: Following },
+    { path: configRouter.login, component: Login, layout: HeaderOnly },
     { path: configRouter.register, component: Following },
     { path: configRouter.course, component: Login, layout: HeaderOnly },
     { path: configRouter.solution, component: Login, layout: HeaderOnly },
