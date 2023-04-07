@@ -5,4 +5,6 @@ export const configRouter = {
     profile: '/profile',
     solution: '/solution',
     course: '/course',
+    storage: '/storage',
+    feedback: '/feedback',
 };
