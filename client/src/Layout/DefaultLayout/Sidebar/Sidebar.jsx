@@ -2,9 +2,11 @@ import classNames from 'classnames/bind';
 import styles from './Sidebar.module.scss';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 const tab = ['Media', 'Cut', 'Concat', 'Effect', 'Storage', 'Feedback & Rating', 'Logout'];
 function Sidebar() {
+    const navigate = useNavigate();
     return (
         <Stack
             direction="column"
@@ -23,7 +25,14 @@ function Sidebar() {
                 {tab.map((tab) => {
                     return (
                         <div style={{ margin: 10, color: 'white' }}>
-                            <h6>{tab}</h6>
+                            <h6
+                                onClick={() => {
+                                    navigate(`/${tab}`);
+                                }}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                {tab}
+                            </h6>
                         </div>
                     );
                 })}

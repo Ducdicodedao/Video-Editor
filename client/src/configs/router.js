@@ -3,6 +3,6 @@ export const configRouter = {
     login: '/login',
     register: '/register',
     profile: '/profile',
-    solution: '/solution',
+    cut: '/cut',
     course: '/course',
 };
