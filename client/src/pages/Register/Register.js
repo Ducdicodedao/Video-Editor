@@ -6,7 +6,7 @@ import { useState, useContext } from 'react';
 import { Alert, Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import httpRequest from '../../util/HttpRequest.js';
-import { Auth, authContext } from '~/contexts/authContext';
+import { Auth } from '~/contexts/authContext';
 
 const cx = classNames.bind(styles);
 function Register() {
@@ -15,7 +15,7 @@ function Register() {
     // const [Phone, setPhone] = useState('');
     const [Password, setPassword] = useState('');
     const [RePassword, setRePassword] = useState('');
-    const [Register, setRegister] = useState(true);
+    // const [Register, setRegister] = useState(true);
     const [Message, setMessage] = useState('');
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
@@ -45,11 +45,7 @@ function Register() {
                 payload: data,
             });
             localStorage.setItem('userInfo', JSON.stringify(data));
-            setMessage('Success Register');
-            setOpen(true);
-            setTimeout(() => {
-                navigate('/login');
-            }, 3000);
+            navigate('/login');
         } catch (err) {
             setMessage('Email is already Exist');
             setOpen(true);
@@ -113,11 +109,16 @@ function Register() {
             <Button className={cx('btn-signup')} onClick={handleSubmit}>
                 Đăng ký
             </Button>
-            <div className={cx('con-signin')} style={{ fontSize: 15 }}>
-                <span>Nếu bạn đã có tài khoản?</span>
-                <a href="http://localhost:3000/login" className={cx('signin')}>
-                    Đăng nhập
-                </a>
+            <div className={cx('con-signin')} style={{ fontSize: 15, cursor: 'pointer' }}>
+                <span>Already have account?</span>
+                <div
+                    className={cx('signin')}
+                    onClick={() => {
+                        navigate('/login');
+                    }}
+                >
+                    Login Now
+                </div>
             </div>
             <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
