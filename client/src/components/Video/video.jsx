@@ -1,21 +1,53 @@
-import { Stack } from '@mui/material';
-import { useState } from 'react';
-import { Video, useVideoConfig, useCurrentFrame } from 'remotion';
-function MyVideo({ videoURL }) {
-    const [frame, setFrame] = useState(useCurrentFrame());
-    return (
-        <Stack direction="column">
-            <Video src={videoURL} startFrom={parseInt(frame)} endForm={120} style={{ width: '90%', height: '90%' }} />
-            <input
-                type="range"
-                onChange={(e) => setFrame(e.target.value)}
-                min="0"
-                max="120"
-                style={{ height: '50px', width: '100%', fontSize: 20 }}
-                value={frame}
-            />
-        </Stack>
-    );
-}
+import React from 'react';
+import videojs from 'video.js';
+import 'video.js/dist/video-js.css';
 
-export default MyVideo;
+export const VideoJS = (props) => {
+    const videoRef = React.useRef(null);
+    const playerRef = React.useRef(null);
+    const { options, onReady } = props;
+
+    React.useEffect(() => {
+        // Make sure Video.js player is only initialized once
+        if (!playerRef.current) {
+            // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
+            const videoElement = document.createElement('video-js');
+
+            videoElement.classList.add('vjs-big-play-centered');
+            videoRef.current.appendChild(videoElement);
+
+            const player = (playerRef.current = videojs(videoElement, options, () => {
+                videojs.log('player is ready');
+                onReady && onReady(player);
+            }));
+
+            // You could update an existing player in the `else` block here
+            // on prop change, for example:
+        } else {
+            const player = playerRef.current;
+
+            // player.autoplay(options.autoplay);
+            player.src(options.sources);
+        }
+    }, [options, videoRef]);
+
+    // Dispose the Video.js player when the functional component unmounts
+    React.useEffect(() => {
+        const player = playerRef.current;
+
+        return () => {
+            if (player && !player.isDisposed()) {
+                player.dispose();
+                playerRef.current = null;
+            }
+        };
+    }, [playerRef]);
+
+    return (
+        <div data-vjs-player>
+            <div ref={videoRef} />
+        </div>
+    );
+};
+
+export default VideoJS;
