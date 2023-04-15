@@ -22,6 +22,7 @@ function Cut() {
         URL.revokeObjectURL(blobUrl);
     };
     const playerRef = React.useRef(null);
+
     const videoJsOptions = {
         autoplay: false,
         controls: true,
