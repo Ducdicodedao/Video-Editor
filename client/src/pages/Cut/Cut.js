@@ -24,7 +24,7 @@ function Cut() {
     const playerRef = React.useRef(null);
 
     const videoJsOptions = {
-        autoplay: false,
+        autoplay: true,
         controls: true,
         responsive: true,
         fluid: true,
@@ -69,14 +69,14 @@ function Cut() {
                 minute: 'HH:mm',
             },
         },
-        start: new Date('Fri Apr 14 2023 00:00:00').getTime(),
-        end: new Date('Fri Apr 14 2023 00:00:00').getTime() + second + 500,
+        start: new Date().getTime(),
+        end: new Date().getTime() + second + 500,
     };
 
     const customTimes = {
-        one: new Date('Fri Apr 14 2023 00:00:00').getTime() + 100,
-        two: new Date('Fri Apr 14 2023 00:00:00').getTime() + second,
-        three: new Date('Fri Apr 14 2023 00:00:00').getTime() + TimeRef.current * second,
+        one: new Date().getTime() + 100,
+        two: new Date().getTime() + second,
+        three: new Date().getTime() + TimeRef.current * second,
     };
     return (
         <div>
