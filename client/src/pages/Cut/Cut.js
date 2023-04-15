@@ -1,12 +1,15 @@
 import { upload } from '@testing-library/user-event/dist/upload';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Video from '~/components/Video';
 import Timeline from 'react-visjs-timeline';
 var second = 1000;
 
 function Cut() {
     const [videoState, setVideoState] = useState({ type: 'empty' });
-    const [Time, setTime] = useState(0);
+    // const [Time, setTime] = useState(0);
+
+    const TimeRef = React.useRef(0);
+
     const handleChange = async (event) => {
         if (event.target.files === null) {
             return;
@@ -20,8 +23,8 @@ function Cut() {
     };
     const playerRef = React.useRef(null);
     const videoJsOptions = {
-        autoplay: true,
-        controls: false,
+        autoplay: false,
+        controls: true,
         responsive: true,
         fluid: true,
         sources: [
@@ -31,7 +34,7 @@ function Cut() {
             },
         ],
     };
-    const handlePlayerReady = (player) => {
+    const handlePlayerReady = useCallback((player) => {
         playerRef.current = player;
         // You can handle player events here, for example:
         player.on('waiting', () => {
@@ -43,10 +46,11 @@ function Cut() {
         player.on('timeupdate', function () {
             // get the current time of the player
             // set the state of the player with the current time
-            setTime(this.currentTime());
-            console.log(Time);
+            // setTime(this.currentTime());
+            TimeRef.current = this.currentTime();
+            console.log(TimeRef.current);
         });
-    };
+    }, []);
     var options = {
         width: '900px',
         height: '200px',
@@ -71,7 +75,7 @@ function Cut() {
     const customTimes = {
         one: new Date('Fri Apr 14 2023 00:00:00').getTime() + 100,
         two: new Date('Fri Apr 14 2023 00:00:00').getTime() + second,
-        three: new Date('Fri Apr 14 2023 00:00:00').getTime() + Time * second,
+        three: new Date('Fri Apr 14 2023 00:00:00').getTime() + TimeRef.current * second,
     };
     return (
         <div>
