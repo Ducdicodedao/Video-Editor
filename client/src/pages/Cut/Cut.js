@@ -1,27 +1,35 @@
 import { upload } from '@testing-library/user-event/dist/upload';
-import React, { useState, useCallback } from 'react';
-import Video from '~/components/Video';
-import Timeline from 'react-visjs-timeline';
-var second = 1000;
-
+import React, { useEffect, useRef, useState } from 'react';
+import Video from '~/Layout/Components/Video';
+import { useCallback } from 'react';
+import { Stack } from '@mui/material';
+import VideosUpload from '~/Layout/Components/videosUpload/videosUpload';
 function Cut() {
     const [videoState, setVideoState] = useState({ type: 'empty' });
-    // const [Time, setTime] = useState(0);
-
-    const TimeRef = React.useRef(0);
-
+    const [duration, setDuration] = useState(0);
     const handleChange = async (event) => {
         if (event.target.files === null) {
             return;
         }
+
+        //----------------------------------------------------------------------------------------------
         const file = event.target.files[0];
+        const video = document.createElement('video');
+        // Xử lý khi video được tải lên
+        video.onloadedmetadata = () => {
+            // Lưu trữ độ dài của video vào biến state
+            setDuration(video.duration);
+        };
+        // Thiết lập source của video để bắt đầu tải lên
+        video.src = URL.createObjectURL(file);
+        //-------------------------------------------------------------------------------------------------
         const blobUrl = URL.createObjectURL(file);
         setVideoState({ type: 'blob', url: blobUrl });
         const cloudUrl = await upload(file); // upload to cloud and get URL
         setVideoState({ type: 'cloud', url: cloudUrl });
         URL.revokeObjectURL(blobUrl);
     };
-    const playerRef = React.useRef(null);
+
 
     const videoJsOptions = {
         autoplay: true,
@@ -79,20 +87,16 @@ function Cut() {
         three: new Date().getTime() + TimeRef.current * second,
     };
     return (
-        <div>
-            {videoState.type !== 'empty' ? <div>sss</div> : null}
-            <div>Rest of app here</div>
-            <Video options={videoJsOptions} onReady={handlePlayerReady} />
-            <div>Rest of app here</div>
-            <Timeline
-                id="timeline"
-                onChange={() => {}}
-                // items={items}
-                options={options}
-                customTimes={customTimes}
-            />
-            <input type="file" onChange={handleChange} />
-        </div>
+        <Stack direction={'row'} justifyContent={'space-between'} sx={{ width: '100%', overflow: 'hidden' }}>
+            <Stack sx={{ marginLeft: 1, marginTop: 2 }}>
+                <div>
+                    <Video videoURL={videoState.url} duration={duration * 1000}></Video>
+                </div>
+
+                <input type="file" onChange={handleChange} />
+            </Stack>
+            <VideosUpload></VideosUpload>
+        </Stack>
     );
 }
 

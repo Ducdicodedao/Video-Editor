@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
-const tab = ['Media', 'Cut', 'Concat', 'Effect', 'Storage', 'Feedback & Rating', 'Logout'];
+const tab = ['Media', 'Cut', 'Concat', 'Effect', 'Storage', 'feedback', 'Logout'];
 function Sidebar() {
     const navigate = useNavigate();
     return (
