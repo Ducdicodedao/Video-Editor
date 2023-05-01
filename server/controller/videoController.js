@@ -320,6 +320,36 @@ const Create2By2VideoWall = async (req, res) => {
         .catch((error) => res.status(401).send({ msg: error }));
 };
 
+const SplitVideo = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const source = new Creatomate.Source({
+        outputFormat: "mp4",
+        width: 1280,
+        height: 720,
+        duration: 3,
+        elements: [
+            new Creatomate.Video({
+                source: req.body.videoSource1,
+                x: "25%",
+                width: "50%",
+            }),
+            new Creatomate.Video({
+                source: req.body.videoSource2,
+                x: "75%",
+                width: "50%",
+            }),
+        ],
+    });
+
+    client
+        .render({ source })
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => res.status(401).send({ msg: error }));
+};
+
 module.exports = {
     TrimVideo,
     AddWatermark,
@@ -328,4 +358,5 @@ module.exports = {
     AddOutro,
     ConvertToGIF,
     Create2By2VideoWall,
+    SplitVideo,
 };

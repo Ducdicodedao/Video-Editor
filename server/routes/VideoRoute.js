@@ -10,4 +10,5 @@ router.post("/addProgressBar", videoController.AddProgressBar);
 router.post("/addOutro", videoController.AddOutro);
 router.post("/convertToGIF", videoController.ConvertToGIF);
 router.post("/create2By2VideoWall", videoController.Create2By2VideoWall);
+router.post("/splitVideo", videoController.SplitVideo);
 module.exports = router;
