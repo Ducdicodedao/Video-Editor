@@ -141,8 +141,47 @@ const TurnImagesIntoVideo = async (req, res) => {
         .catch((error) => res.status(401).send({ msg: error }));
 };
 
+const AddProgressBar = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const source = new Creatomate.Source({
+        outputFormat: "mp4",
+
+        elements: [
+            new Creatomate.Video({
+                source: req.body.videoSource,
+            }),
+
+            new Creatomate.Rectangle({
+                x: "0%",
+                y: "0%",
+                width: "100%",
+                height: "3%",
+                xAnchor: "0%",
+                yAnchor: "0%",
+                fillColor: "rgba(224,241,59,0.88)",
+                animations: [
+                    new Creatomate.Wipe({
+                        xAnchor: "0%",
+                        fade: false,
+                        easing: "linear",
+                    }),
+                ],
+            }),
+        ],
+    });
+
+    client
+        .render({ source })
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => res.status(401).send({ msg: error }));
+};
+
 module.exports = {
     TrimVideo,
     AddWatermark,
     TurnImagesIntoVideo,
+    AddProgressBar,
 };
