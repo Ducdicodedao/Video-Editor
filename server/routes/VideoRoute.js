@@ -4,4 +4,5 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/trimVideo", videoController.TrimVideo);
+router.post("/addWatermark", videoController.AddWatermark);
 module.exports = router;
