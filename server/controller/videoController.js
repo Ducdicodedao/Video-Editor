@@ -270,6 +270,56 @@ const ConvertToGIF = async (req, res) => {
         .catch((error) => res.status(401).send({ msg: error }));
 };
 
+const Create2By2VideoWall = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const source = new Creatomate.Source({
+        outputFormat: "mp4",
+        duration: 3,
+
+        elements: [
+            new Creatomate.Video({
+                x: "25%",
+                y: "25%",
+                width: "50%",
+                height: "50%",
+                source: req.body.videoSource1,
+            }),
+
+            new Creatomate.Video({
+                x: "75%",
+                y: "25%",
+                width: "50%",
+                height: "50%",
+                source: req.body.videoSource2,
+            }),
+
+            new Creatomate.Video({
+                x: "25%",
+                y: "75%",
+                width: "50%",
+                height: "50%",
+                source: req.body.videoSource3,
+            }),
+
+            new Creatomate.Video({
+                x: "75%",
+                y: "75%",
+                width: "50%",
+                height: "50%",
+                source: req.body.videoSource4,
+            }),
+        ],
+    });
+
+    client
+        .render({ source })
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => res.status(401).send({ msg: error }));
+};
+
 module.exports = {
     TrimVideo,
     AddWatermark,
@@ -277,4 +327,5 @@ module.exports = {
     AddProgressBar,
     AddOutro,
     ConvertToGIF,
+    Create2By2VideoWall,
 };
