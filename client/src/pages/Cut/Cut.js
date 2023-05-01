@@ -7,14 +7,25 @@ var second = 1000;
 function Cut() {
     const [videoState, setVideoState] = useState({ type: 'empty' });
     // const [Time, setTime] = useState(0);
-
+    const [duration, setDuration] = useState(0);
     const TimeRef = React.useRef(0);
 
     const handleChange = async (event) => {
         if (event.target.files === null) {
             return;
         }
+
+        //----------------------------------------------------------------------------------------------
         const file = event.target.files[0];
+        const video = document.createElement('video');
+        // Xử lý khi video được tải lên
+        video.onloadedmetadata = () => {
+            // Lưu trữ độ dài của video vào biến state
+            setDuration(video.duration);
+        };
+        // Thiết lập source của video để bắt đầu tải lên
+        video.src = URL.createObjectURL(file);
+        //-------------------------------------------------------------------------------------------------
         const blobUrl = URL.createObjectURL(file);
         setVideoState({ type: 'blob', url: blobUrl });
         const cloudUrl = await upload(file); // upload to cloud and get URL
@@ -22,6 +33,7 @@ function Cut() {
         URL.revokeObjectURL(blobUrl);
     };
     const playerRef = React.useRef(null);
+    console.log(duration);
 
     const videoJsOptions = {
         autoplay: true,
