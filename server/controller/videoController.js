@@ -234,10 +234,47 @@ const AddOutro = async (req, res) => {
         })
         .catch((error) => res.status(401).send({ msg: error }));
 };
+
+const ConvertToGIF = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const source = new Creatomate.Source({
+        outputFormat: "gif",
+
+        // Set to 'fast' or 'best' depending on your preference
+        gifQuality: "best",
+
+        // Compression level ranging from 0 to 200 (0 means no compression, 200 means heavy compression)
+        gifCompression: 30,
+
+        // Frame rate of the GIF
+        frameRate: 15,
+
+        // GIF width
+        width: 480,
+
+        // GIF height
+        height: 272,
+
+        elements: [
+            new Creatomate.Video({
+                source: req.body.videoSource,
+            }),
+        ],
+    });
+    client
+        .render({ source })
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => res.status(401).send({ msg: error }));
+};
+
 module.exports = {
     TrimVideo,
     AddWatermark,
     TurnImagesIntoVideo,
     AddProgressBar,
     AddOutro,
+    ConvertToGIF,
 };
