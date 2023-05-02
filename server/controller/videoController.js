@@ -10,16 +10,35 @@ if (!apiKey) {
 }
 
 const TrimVideo = async (req, res) => {
+  const client = new Creatomate.Client(apiKey);
+  const source = new Creatomate.Source({
+    outputFormat: "mp4",
+    elements: [
+      new Creatomate.Video({
+        source: req.body.source,
+        trimStart: req.body.trimStart,
+        trimDuration: req.body.trimDuration,
+      }),
+    ],
+  });
+  console.log("Please wait while your video is being rendered...");
+
+  client
+    .render({ source })
+    .then((renders) => {
+      res.status(200).send({ data: renders });
+    })
+    .catch((error) => res.status(401).send({ msg: error }));
     const client = new Creatomate.Client(apiKey);
     const source = new Creatomate.Source({
-        outputFormat: "mp4",
-        elements: [
-            new Creatomate.Video({
-                source: "https://res.cloudinary.com/dgfsdhshs/video/upload/v1682911789/videos/y95iaf66slyqq7gfd7va.mp4",
-                trimStart: 1,
-                trimDuration: 3,
-            }),
-        ],
+    outputFormat: "mp4",
+      elements: [
+        new Creatomate.Video({
+          source: req.body.source,
+          trimStart: req.body.trimStart,
+          trimDuration: req.body.trimDuration,
+        }),
+      ],
     });
     console.log("Please wait while your video is being rendered...");
 

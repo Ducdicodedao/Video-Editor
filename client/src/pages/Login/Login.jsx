@@ -14,6 +14,8 @@ import { useState, useEffect, useContext } from 'react';
 import { Auth } from '~/contexts/authContext';
 import httpRequest from '../../util/HttpRequest.js';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn } from '~/app/authSlice.js';
 
 const ColorButton = styled(Button)(({ theme }) => ({
     color: 'white',
@@ -29,9 +31,6 @@ function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { state, dispatch } = useContext(Auth);
-    const { userInfo } = state;
-
     const [showPassword, setShowPassword] = useState(false);
     const [open, setOpen] = useState(false);
     const [Message, setMessage] = useState('');
@@ -43,22 +42,19 @@ function Login() {
     const handleClose = () => {
         setOpen(false);
     };
-
+    const dispatch = useDispatch();
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
     const handleSubmit = async () => {
         try {
             console.log(email, password);
-            const { data } = await httpRequest.post('/api/auth/signin', {
-                email,
-                password,
-            });
-            dispatch({
-                type: 'USER_SIGNIN',
-                payload: data,
-            });
-            localStorage.setItem('userInfo', JSON.stringify(data));
+            // const { data } = await httpRequest.post('/api/auth/signin', {
+            //     email,
+            //     password,
+            // });
+            dispatch(signIn({ email, password }));
+            // localStorage.setItem('userInfo', JSON.stringify(data));
             navigate('/');
         } catch (err) {
             setMessage('Invalid Email or Password');

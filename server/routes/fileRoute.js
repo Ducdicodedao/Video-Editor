@@ -6,7 +6,6 @@ const videoFileUploader = require("../middleware/videocloudinary");
 const verifyToken = require("../middleware/verifyToken");
 router.post(
   "/upload",
-  verifyToken,
   videoFileUploader.array("files"),
   FileController.uploadFile
 );

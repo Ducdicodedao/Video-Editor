@@ -1,14 +1,46 @@
-import { Stack } from '@mui/material';
+import { Button, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
+import { setDuration, trimVideo } from '~/app/videoSlice';
 var second = 360;
 
-function MyVideo({ videoURL, duration }) {
+function MyVideo({}) {
+    const videoState = useSelector((state) => state.video);
     const [frame, setFrame] = useState(0);
+    const [trimStart, settrimStart] = useState(0);
+    const [trimDuration, settrimDuration] = useState(1900);
     const videoRef = useRef(null);
+    const dispatch = useDispatch();
+    const timeChangeHandler = (e) => {
+        const date = new Date(e.time);
+        if (e.id === 'd') {
+            videoRef.current.pause();
+            const date = new Date(e.time);
+            videoRef.current.currentTime = parseInt(date.getSeconds());
+            setFrame(parseInt(date.getSeconds()));
+        } else if (e.id === 'start') {
+            console.log(parseInt(date.getSeconds() * 1000));
+            settrimStart(parseInt(date.getSeconds() * 1000));
+        } else {
+            console.log(parseInt(date.getSeconds() * 1000));
 
+            settrimDuration(parseInt(date.getSeconds() * 1000));
+        }
+    };
+    const cutVideoHandler = () => {
+        console.log((trimDuration - trimStart) / 1000);
+        dispatch(
+            trimVideo({
+                trimStart: trimStart / 1000,
+                trimDuration: Math.floor(trimDuration / 1000 - trimStart / 1000),
+                source: videoState?.video?.url,
+            }),
+        );
+        settrimStart(0);
+    };
     var options = {
-        width: '90%',
+        width: '94%',
         height: '100px',
         stack: true,
         showMajorLabels: false,
@@ -21,45 +53,51 @@ function MyVideo({ videoURL, duration }) {
             },
         },
         start: new Date('Fri Apr 14 2023 00:00:00').getTime(),
-        end: new Date('Fri Apr 14 2023 00:00:00').getTime() + duration,
+        end: new Date('Fri Apr 14 2023 00:00:00').getTime() + videoState?.duration * 1000,
     };
     const customTimes = {
-        a: new Date('Fri Apr 14 2023 00:00:00').getTime(),
-        s: new Date('Fri Apr 14 2023 00:00:00').getTime() + duration,
+        start: new Date('Fri Apr 14 2023 00:00:00').getTime() + trimStart,
+        end: new Date('Fri Apr 14 2023 00:00:00').getTime() + trimDuration - 100,
         d: new Date('Fri Apr 14 2023 00:00:00').getTime() + frame * 1000,
     };
-    if (videoURL === undefined) {
-        videoURL = 'client/public/video.mp4';
-    }
     return (
         <Stack direction="column">
             <video
-                src={videoURL}
+                src={videoState?.video?.url}
                 onTimeUpdate={(e) => {
-                    if (e.target.currentTime <= duration / 1000) {
+                    if (frame === 0) {
+                        dispatch(setDuration(e.target.duration));
+                        settrimDuration(e.target.duration * 1000);
+                    }
+                    if (e.target.currentTime <= videoState?.duration) {
                         setFrame(e.target.currentTime);
-                        console.log(frame);
                     }
                 }}
+                onLoadStart={() => {}}
                 // controls
                 autoPlay={true}
                 ref={videoRef}
-                style={{ width: '90%', height: '100%' }}
+                style={{ width: '800px', height: '400px' }}
             />
-            <Timeline
-                id="timeline"
-                clickHandler={(e) => {
-                    videoRef.current.play();
-                }}
-                timechangeHandler={(e) => {
-                    videoRef.current.pause();
-                    const date = new Date(e.time);
-                    videoRef.current.currentTime = parseInt(date.getSeconds());
-                    setFrame(parseInt(date.getSeconds()));
-                }}
-                options={options}
-                customTimes={customTimes}
-            />
+            <div style={{ marginLeft: '45px' }}>
+                <Timeline
+                    id="timeline"
+                    clickHandler={(e) => {
+                        videoRef.current.play();
+                    }}
+                    timechangeHandler={timeChangeHandler}
+                    options={options}
+                    customTimes={customTimes}
+                />
+            </div>
+            <Button
+                variant="contained"
+                component="label"
+                sx={{ margin: 'auto', marginTop: 2, marginBottom: 5, width: '200px' }}
+                onClick={cutVideoHandler}
+            >
+                Cut
+            </Button>
         </Stack>
     );
 }

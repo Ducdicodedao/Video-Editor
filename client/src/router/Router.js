@@ -22,10 +22,12 @@ const publicRoutes = [
 ];
 const privateRoutes = [
     { path: configRouter.home, component: Home },
-    { path: configRouter.login, component: Following },
-    { path: configRouter.register, component: Following },
-    { path: configRouter.course, component: Course },
-    { path: configRouter.solution, component: Cut },
-    { path: configRouter.profile, component: Profile },
+    { path: configRouter.storage, component: Storage },
+    { path: configRouter.feedback, component: Feedback },
+    { path: configRouter.login, component: Login, layout: HeaderOnly },
+    { path: configRouter.register, component: Register, layout: HeaderOnly },
+    { path: configRouter.course, component: Login, layout: HeaderOnly },
+    { path: configRouter.cut, component: Cut },
+    { path: configRouter.profile, component: Login, layout: HeaderOnly },
 ];
 export { publicRoutes, privateRoutes };
