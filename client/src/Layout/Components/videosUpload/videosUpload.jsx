@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 function VideosUpload({ videoURL, duration }) {
     return (
-        <Stack direction="column" sx={{ height: '100vh', width: '500px', marginRight: 3, overflow: 'auto' }}>
+        <Stack direction="column" sx={{ height: '100vh', width: '200px', overflow: 'auto' }}>
             <img
                 src="https://th.bing.com/th/id/OIG.9zOWcvVtSRbWObqpxpwf?w=173&h=173&c=6&pcl=1b1a19&r=0&o=5&pid=ImgGn"
                 alt="..."

@@ -10,13 +10,11 @@ import { AuthProvider } from './contexts/authContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        {/* <Provider store={store}> */}
-        <GlobalStyles>
-            <AuthProvider>
+        <Provider store={store}>
+            <GlobalStyles>
                 <App />
-            </AuthProvider>
-        </GlobalStyles>
-        {/* </Provider> */}
+            </GlobalStyles>
+        </Provider>
     </React.StrictMode>,
 );
 

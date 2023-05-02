@@ -15,10 +15,9 @@ const TrimVideo = async (req, res) => {
     outputFormat: "mp4",
     elements: [
       new Creatomate.Video({
-        source:
-          "https://res.cloudinary.com/dgfsdhshs/video/upload/v1682911789/videos/y95iaf66slyqq7gfd7va.mp4",
-        trimStart: 1,
-        trimDuration: 3,
+        source: req.body.source,
+        trimStart: req.body.trimStart,
+        trimDuration: req.body.trimDuration,
       }),
     ],
   });
