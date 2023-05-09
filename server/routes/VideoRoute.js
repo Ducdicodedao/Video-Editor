@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 router.post("/trimVideo", videoController.TrimVideo);
+router.post("/concatenate", videoController.concatenate);
 router.post("/addWatermark", videoController.AddWatermark);
 router.post("/turnImagesIntoVideo", videoController.TurnImagesIntoVideo);
 router.post("/addProgressBar", videoController.AddProgressBar);
