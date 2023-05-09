@@ -1,5 +1,5 @@
 const FileModel = require("../models/FileModel");
-
+const { getVideoDurationInSeconds } = require("get-video-duration");
 const uploadFile = async (req, res) => {
   try {
     const newFileUpload = {
@@ -7,7 +7,9 @@ const uploadFile = async (req, res) => {
       url: req.files[0].path,
       filename: req.files[0].filename,
     };
-    res.status(200).send({ ...newFileUpload });
+    getVideoDurationInSeconds(req.files[0].path).then((duration) => {
+      res.status(200).send({ ...newFileUpload, duration: duration });
+    });
   } catch (error) {
     res.status(401).send({ msg: error.message });
   }

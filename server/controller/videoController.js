@@ -31,6 +31,38 @@ const TrimVideo = async (req, res) => {
     .catch((error) => res.status(401).send({ msg: error }));
 };
 
+const concatenate = async (req, res) => {
+  const client = new Creatomate.Client(apiKey);
+  const source = new Creatomate.Source({
+    outputFormat: "mp4",
+    width: 1280,
+    height: 720,
+    elements: [
+      new Creatomate.Video({
+        track: 1,
+        source: req.body.source1,
+      }),
+
+      new Creatomate.Video({
+        track: 1,
+        source: req.body.source2,
+
+        // Add a transition like this:
+        // transition: new Creatomate.Fade({ duration: 1 }),
+      }),
+    ],
+  });
+
+  console.log("Please wait while your video is being rendered...");
+
+  client
+    .render({ source })
+    .then((renders) => {
+      res.status(200).send({ data: renders });
+    })
+    .catch((error) => res.status(401).send({ msg: error }));
+};
+
 const AddWatermark = async (req, res) => {
   const client = new Creatomate.Client(apiKey);
 
@@ -359,4 +391,5 @@ module.exports = {
   ConvertToGIF,
   Create2By2VideoWall,
   SplitVideo,
+  concatenate,
 };

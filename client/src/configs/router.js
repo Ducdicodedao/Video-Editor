@@ -4,7 +4,7 @@ export const configRouter = {
     register: '/register',
     profile: '/profile',
     cut: '/cut',
-    course: '/course',
+    concatenate: '/concatenate',
     storage: '/storage',
     feedback: '/feedback',
 };

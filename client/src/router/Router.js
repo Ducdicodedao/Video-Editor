@@ -1,6 +1,6 @@
 import HeaderOnly from '~/Layout/HeaderOnly';
 import { configRouter } from '~/configs/router';
-import Course from '~/pages/Course';
+import Concatenate from '~/pages/Concatenate';
 import Following from '~/pages/Following';
 import Home from '~/pages/Home/Home';
 import Login from '~/pages/Login';
@@ -16,7 +16,7 @@ const publicRoutes = [
     { path: configRouter.feedback, component: Feedback },
     { path: configRouter.login, component: Login, layout: HeaderOnly },
     { path: configRouter.register, component: Register, layout: HeaderOnly },
-    { path: configRouter.course, component: Login, layout: HeaderOnly },
+    { path: configRouter.concatenate, component: Concatenate },
     { path: configRouter.cut, component: Cut },
     { path: configRouter.profile, component: Login, layout: HeaderOnly },
 ];
@@ -26,7 +26,7 @@ const privateRoutes = [
     { path: configRouter.feedback, component: Feedback },
     { path: configRouter.login, component: Login, layout: HeaderOnly },
     { path: configRouter.register, component: Register, layout: HeaderOnly },
-    { path: configRouter.course, component: Login, layout: HeaderOnly },
+    { path: configRouter.concatenate, component: Concatenate },
     { path: configRouter.cut, component: Cut },
     { path: configRouter.profile, component: Login, layout: HeaderOnly },
 ];
