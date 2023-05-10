@@ -1,43 +1,46 @@
 import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
 import { concatenateVideo } from '~/app/videoSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, videoSrc }) {
+import { Stack } from '@mui/system';
+function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, videoSrc, setItemSelector }) {
     const currentVideo = videoState.currentVideo;
     const dispatch = useDispatch();
+    const [itemSize, setItemSize] = useState(90);
     const timeChangeHandler = (e) => {
         if (e.id === 'd') {
             videoRef.current.pause();
             const date = new Date(e.time);
-            videoRef.current.currentTime = parseInt(date.getSeconds());
-            console.log(parseInt(date.getSeconds()) - videoSrc.start);
-            videoRef.current.pause();
+            videoRef.current.currentTime = parseInt(date.getSeconds()) - videoSrc.start;
+            // console.log(parseInt(date.getSeconds()) - videoSrc.start);
 
+            videoRef.current.pause();
             setFrame(parseInt(date.getSeconds()));
         }
     };
     const items = videoState.video.map((data) => {
-        const video = videos.filter((e) => e.content === data.name);
+        const video = videos.filter((e) => e.id === data.name);
         return {
+            id: video[0]?.id,
+            style: 'height:20px;font-size:12px',
             start: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.start * 1000,
             end: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.end * 1000,
             content: video[0]?.content,
         };
     });
     var options = {
-        width: '94%',
-        height: '180px',
-        maxHeight: '180px',
+        width: '99%',
+        height: itemSize + 'px',
+        maxHeight: '150px',
         stack: true,
         verticalScroll: true,
         showMajorLabels: false,
         showCurrentTime: false,
         editable: true,
         zoomMin: 1, // zoomMax: 1,autoResize: true,type: 'background',
-
         format: {
             minorLabels: {
                 second: 's',
@@ -47,7 +50,7 @@ function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, vi
         onMove: function (item, callback) {
             const temp = [];
             for (let index = 0; index < videos.length; index++) {
-                if (videos[index].content === item.content) {
+                if (videos[index].id === item.id) {
                     videos[index].start = new Date(item.start).getSeconds();
                     videos[index].end = new Date(item.end).getSeconds();
                 }
@@ -67,11 +70,23 @@ function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, vi
     const customTimes = {
         d: new Date('Fri Apr 14 2023 00:00:00').getTime() + frame * 1000,
     };
+    useEffect(() => {
+        if (videoState.video.length > 1) {
+            setItemSize((videoState.video.length - 1) * 30 + itemSize);
+        }
+    }, [videoState]);
     return (
         <div style={{ marginLeft: '45px' }}>
+            {/* <Stack direction="row"> */}
             <Timeline
                 id="timeline"
-                clickHandler={(e) => {}}
+                selectHandler={(e) => {
+                    if (e.items.length > 0) {
+                        setItemSelector(e.items[0]);
+                    } else if (e.items.length === 0) {
+                        setItemSelector(null);
+                    }
+                }}
                 items={items}
                 timechangeHandler={timeChangeHandler}
                 options={options}
@@ -79,7 +94,9 @@ function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, vi
             />
             <KeyboardArrowUpIcon sx={{ cursor: 'pointer' }} />
             <KeyboardArrowDownIcon sx={{ cursor: 'pointer' }} />
-            <Button
+            {/* </Stack> */}
+
+            {/* <Button
                 variant="contained"
                 component="label"
                 sx={{ marginLeft: '250px', marginTop: 2, marginBottom: 5, width: '200px' }}
@@ -94,7 +111,7 @@ function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, vi
                 }}
             >
                 Concatenate
-            </Button>
+            </Button> */}
         </div>
     );
 }
