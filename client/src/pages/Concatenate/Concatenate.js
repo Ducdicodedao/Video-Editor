@@ -27,7 +27,6 @@ function Concatenate() {
                     <Video route={'concatenate'}></Video>
                 </div>
             </Stack>
-            <VideosUpload></VideosUpload>
         </Stack>
     );
 }

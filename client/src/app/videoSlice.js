@@ -12,6 +12,10 @@ export const concatenateVideo = createAsyncThunk('video/concat', async (params, 
     const res = await videoApi.concatVideo(params);
     return res;
 });
+// export const splitVideo = createAsyncThunk('video/split', async (params, thunkAPI) => {
+//     const res = await videoApi.splitVideo(params);
+//     return res;
+// });
 export const videoSlice = createSlice({
     name: 'videos',
     initialState: {
@@ -33,6 +37,9 @@ export const videoSlice = createSlice({
         },
         setCurrentVideo: (state, action) => {
             state.currentVideo = action.payload;
+        },
+        splitVideo: (state, action) => {
+            state.video.push(action.payload);
         },
     },
     extraReducers: (builder) => {
@@ -62,6 +69,30 @@ export const videoSlice = createSlice({
             state.currentVideo = action.payload.data[0];
         });
 
+        // builder.addCase(splitVideo.pending, (state, action) => {
+        //     state.loading = true;
+        // });
+        // builder.addCase(splitVideo.rejected, (state, action) => {
+        //     state.loading = false;
+        //     state.error = action.payload.msg;
+        //     state.isError = true;
+        // });
+        // builder.addCase(splitVideo.fulfilled, (state, action) => {
+        //     state.loading = false;
+        //     let index = state.video.findIndex((data) => data.name === action.payload.originalName);
+
+        //     // Check if the index is valid
+        //     if (index > -1) {
+        //         // Remove the object using splice()
+        //         let removed = state.video.splice(index, 1);
+        //     }
+        //     console.log(state.video);
+        //     state.video.push(action.payload.video1.data[0]);
+        //     state.video.push(action.payload.video2.data[0]);
+
+        //     state.currentVideo = action.payload.data;
+        // });
+
         builder.addCase(uploadFile.pending, (state, action) => {
             state.loading = true;
         });
@@ -80,5 +111,5 @@ export const videoSlice = createSlice({
         });
     },
 });
-export const { resetStoreVideo, setDuration, setCurrentVideo } = videoSlice.actions;
+export const { resetStoreVideo, setDuration, setCurrentVideo, splitVideo } = videoSlice.actions;
 export default videoSlice.reducer;
