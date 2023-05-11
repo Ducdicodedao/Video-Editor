@@ -13,7 +13,14 @@ function Sidebar() {
     return (
         <Stack
             direction="column"
-            sx={{ color: 'white', padding: 10, backgroundColor: '#101010', height: '100vh', width: '300px' }}
+            sx={{
+                color: 'white',
+                padding: 0,
+                backgroundColor: '#101010',
+                height: '100vh',
+                // width: '300px',
+                alignItems: 'center',
+            }}
         >
             <Stack direction="column" sx={{ marginBottom: 5 }}>
                 <Avatar

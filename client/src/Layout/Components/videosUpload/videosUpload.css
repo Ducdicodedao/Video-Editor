@@ -1,0 +1,47 @@
+.container {
+    height: 100vh;
+    width: 200px;
+    overflow: auto;
+}
+
+.upload-image {
+    width: 173px;
+    height: 173px;
+    background-image: url('https://th.bing.com/th/id/OIG.9zOWcvVtSRbWObqpxpwf?w=173&h=173&c=6&pcl=1b1a19&r=0&o=5&pid=ImgGn');
+}
+
+.upload-heading {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.upload-description {
+    font-size: 13px;
+}
+
+.upload-button {
+    margin-top: 2px;
+    margin-bottom: 5px;
+    background-color: #1976d2;
+    color: #ffffff;
+    padding: 6px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.video-item {
+    cursor: pointer;
+}
+
+.video-thumbnail {
+    width: 173px;
+    height: 173px;
+    background-image: url('https://th.bing.com/th/id/OIG.vy_w0zhmpBGcr6Vt5LFC?w=173&h=173&c=6&pcl=1b1a19&r=0&o=5&pid=ImgGn');
+}
+
+.video-name {
+    font-size: 13px;
+    margin: auto;
+}

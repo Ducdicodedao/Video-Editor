@@ -1,7 +1,7 @@
-import { Button, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentVideo, uploadFile } from '~/app/videoSlice';
+import './videosUpload.css'; // Import the CSS file
 
 function VideosUpload({ videoURL, duration }) {
     const videoState = useSelector((state) => state.video.video);
@@ -19,38 +19,29 @@ function VideosUpload({ videoURL, duration }) {
         formData.append('files', file);
         dispatch(uploadFile(formData));
     };
+
     return (
-        <Stack direction="column" sx={{ height: '100vh', width: '200px', overflow: 'auto' }}>
-            <img
-                src="https://th.bing.com/th/id/OIG.9zOWcvVtSRbWObqpxpwf?w=173&h=173&c=6&pcl=1b1a19&r=0&o=5&pid=ImgGn"
-                alt="..."
-            />
-            <h5>Video Uploaded</h5>
-            <p style={{ fontSize: 13 }}>you can choose video to cut</p>
-            <Button variant="contained" component="label" sx={{ marginTop: 2, marginBottom: 5 }}>
+        <div className="container">
+            <div className="upload-image"></div>
+            <h5 className="upload-heading">Video Uploaded</h5>
+            <p className="upload-description">you can choose video to cut</p>
+            <label htmlFor="file-upload" className="upload-button">
                 Upload File
-                <input type="file" hidden onChange={handleChange} />
-            </Button>
-            {videoState.map((data) => {
-                return (
-                    <>
-                        <Stack
-                            justifyContent="center"
-                            sx={{ cursor: 'pointer' }}
-                            onClick={() => {
-                                dispatch(setCurrentVideo(data));
-                            }}
-                        >
-                            <img
-                                src="https://th.bing.com/th/id/OIG.vy_w0zhmpBGcr6Vt5LFC?w=173&h=173&c=6&pcl=1b1a19&r=0&o=5&pid=ImgGn"
-                                alt=".."
-                            />
-                            <p style={{ fontSize: 13, margin: 'auto' }}>{data.name}</p>
-                        </Stack>
-                    </>
-                );
-            })}
-        </Stack>
+                <input type="file" id="file-upload" onChange={handleChange} style={{ display: 'none' }} />
+            </label>
+            {videoState.map((data) => (
+                <div
+                    key={data.id}
+                    className="video-item"
+                    onClick={() => {
+                        dispatch(setCurrentVideo(data));
+                    }}
+                >
+                    <div className="video-thumbnail"></div>
+                    <p className="video-name">{data.name}</p>
+                </div>
+            ))}
+        </div>
     );
 }
 
