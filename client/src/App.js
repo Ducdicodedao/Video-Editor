@@ -1,14 +1,11 @@
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes, privateRoutes } from '~/router/Router';
+import { publicRoutes } from '~/router/Router';
 import DefaultLayout from '~/Layout/DefaultLayout';
 import { useSelector } from 'react-redux';
 function App() {
     const user = useSelector((state) => state.auth.user);
     let Comp = publicRoutes;
-    if (user) {
-        Comp = privateRoutes;
-    }
     return (
         <Router>
             <div className="App">

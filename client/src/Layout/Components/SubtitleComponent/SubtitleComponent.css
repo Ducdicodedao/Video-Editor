@@ -1,0 +1,63 @@
+.subtitleComponent-container {
+    width: 500px;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    padding: 20px;
+}
+
+.subtitle-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.subtitle-demo-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.subtitle-demo-video {
+    margin-bottom: 20px;
+    width: 320px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.subtitle-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* adjust the gap between cards as needed */
+    align-items: center;
+    margin: 0 20px 0 20px;
+}
+
+.subtitle-card {
+    background-color: white;
+    border-radius: 0.5rem; /* adjust the border radius as needed */
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* adjust the box shadow as needed */
+    padding: 20px;
+    display: flex;
+    width: 100%;
+}
+.subtitle-input {
+    border: 1px solid #ccc;
+    flex: 1;
+    padding: 0 8px 0 8px;
+}
+.subtitle-time-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+.subtitle-time-container {
+    display: flex;
+}
+.subtitle-time-title {
+    font-size: 12px;
+}
+.subtitle-time {
+    width: 40px;
+}
+.subtitle-add {
+    cursor: pointer;
+}

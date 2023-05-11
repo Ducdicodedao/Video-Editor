@@ -7,4 +7,7 @@ export const configRouter = {
     concatenate: '/concatenate',
     storage: '/storage',
     feedback: '/feedback',
+    media: '/media',
+    subtitle: '/subtitle',
+    watermark: '/watermark',
 };

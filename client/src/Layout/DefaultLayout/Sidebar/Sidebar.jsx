@@ -6,14 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetStoreAuth } from '~/app/authSlice';
 const cx = classNames.bind(styles);
-const tab = ['Media', 'Cut', 'Concatenate', 'Effect', 'Storage', 'feedback', 'Logout'];
+const tab = ['Media', 'Subtitle', 'Watermark', 'Cut', 'Concatenate', 'Effect', 'Storage', 'feedback', 'Logout'];
 function Sidebar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     return (
         <Stack
             direction="column"
-            sx={{ color: 'white', padding: 10, backgroundColor: '#101010', height: '100vh', width: '300px' }}
+            sx={{
+                color: 'white',
+                padding: 0,
+                backgroundColor: '#101010',
+                height: '100vh',
+                // width: '300px',
+                alignItems: 'center',
+            }}
         >
             <Stack direction="column" sx={{ marginBottom: 5 }}>
                 <Avatar
