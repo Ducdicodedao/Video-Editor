@@ -19,6 +19,7 @@ function MyVideo({ route }) {
     const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
     const [itemSelector, setItemSelector] = useState(null);
+    const [isDragDrop, setIsDragDrop] = useState(false);
     useEffect(() => {
         if (!isSplit) {
             setVideos(
@@ -77,6 +78,19 @@ function MyVideo({ route }) {
             dispatch(splitVideo({ name: video[0].name + ' source2', url: video[0].url, duration: video[0].duration }));
         }
     };
+    const timeChangeHandler = (e) => {
+        if (e.id === 'd') {
+            videoRef.current.pause();
+            const date = new Date(e.time);
+
+            // console.log(parseInt(date.getSeconds()) - videoSrc.start);
+            videoRef.current.pause();
+            setFrame(parseFloat((date.getMinutes() + date.getSeconds() / 60).toFixed(2)));
+
+            // console.log(date.getMinutes() + date.getSeconds() / 60);
+            setIsDragDrop(true);
+        }
+    };
     useEffect(() => {
         for (var element of videos) {
             if (frame >= element?.start && frame < element?.end) {
@@ -87,7 +101,21 @@ function MyVideo({ route }) {
                 break;
             }
         }
+        // setVideoSrc(videos[0]);
+        // setIsChangeVideo(true);
     }, [videos, frame]);
+    useEffect(() => {
+        if (isPlay === false) {
+            if (videoSrc.start !== undefined && videoSrc.frameSkip !== undefined) {
+                videoRef.current.currentTime = frame - videoSrc?.start + videoSrc.frameSkip;
+            } else if (videoSrc.start !== undefined) {
+                videoRef.current.currentTime = frame - videoSrc?.start;
+            } else {
+                videoRef.current.currentTime = frame;
+            }
+        }
+    }, [frame]);
+    console.log(videos);
     return (
         <Stack direction="column">
             {loading ? (
@@ -109,17 +137,13 @@ function MyVideo({ route }) {
                                 // videoRef.current.pause();
                                 // setIsPlay(false);
                             }
-                            if (videoSrc.start === 0 && videoSrc.frameSkip !== undefined) {
-                                videoRef.current.currentTime = videoSrc.frameSkip;
-                            }
-                            if (
-                                e.target.currentTime <= videoState?.totalDuration &&
-                                e.target.currentTime + videoSrc.start >= frame
-                            ) {
+
+                            if (e.target.currentTime + videoSrc.start >= frame) {
                                 const time = e.target.currentTime;
-                                console.log(time);
-                                if (videoSrc?.frameSkip !== undefined) {
-                                    setFrame(time + videoSrc.start);
+                                if (isDragDrop) {
+                                    setIsDragDrop(false);
+                                } else if (videoSrc.frameSkip !== undefined) {
+                                    setFrame(time + videoSrc.start - videoSrc.frameSkip);
                                 } else {
                                     setFrame(time + videoSrc.start);
                                 }
@@ -180,6 +204,7 @@ function MyVideo({ route }) {
                         videos={videos}
                         setVideos={setVideos}
                         setItemSelector={setItemSelector}
+                        timeChangeHandler={timeChangeHandler}
                     />
                 </>
             )}

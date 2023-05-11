@@ -6,28 +6,31 @@ import { concatenateVideo } from '~/app/videoSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
-function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, videoSrc, setItemSelector }) {
+function TimeLine({
+    videoRef,
+    setFrame,
+    videoState,
+    frame,
+    videos,
+    setVideos,
+    videoSrc,
+    setItemSelector,
+    timeChangeHandler,
+}) {
+    const timeValue = 60000;
+
     const currentVideo = videoState.currentVideo;
     const dispatch = useDispatch();
+    const videoss = videos;
     const [itemSize, setItemSize] = useState(90);
-    const timeChangeHandler = (e) => {
-        if (e.id === 'd') {
-            videoRef.current.pause();
-            const date = new Date(e.time);
-            videoRef.current.currentTime = parseInt(date.getSeconds()) - videoSrc.start;
-            // console.log(parseInt(date.getSeconds()) - videoSrc.start);
 
-            videoRef.current.pause();
-            setFrame(parseInt(date.getSeconds()));
-        }
-    };
     const items = videoState.video.map((data) => {
         const video = videos.filter((e) => e.id === data.name);
         return {
             id: video[0]?.id,
             style: 'height:20px;font-size:12px',
-            start: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.start * 1000,
-            end: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.end * 1000,
+            start: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.start * timeValue,
+            end: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.end * timeValue,
             content: video[0]?.content,
         };
     });
@@ -43,16 +46,18 @@ function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, vi
         zoomMin: 1, // zoomMax: 1,autoResize: true,type: 'background',
         format: {
             minorLabels: {
+                millisecond: 's.SSS',
                 second: 's',
                 minute: 'HH:mm',
             },
         },
         onMove: function (item, callback) {
+            console.log(item);
             const temp = [];
             for (let index = 0; index < videos.length; index++) {
                 if (videos[index].id === item.id) {
-                    videos[index].start = new Date(item.start).getSeconds();
-                    videos[index].end = new Date(item.end).getSeconds();
+                    videos[index].start = new Date(item.start).getMinutes() + new Date(item.start).getSeconds() / 60;
+                    videos[index].end = new Date(item.end).getMinutes() + new Date(item.end).getSeconds() / 60;
                 }
                 temp.push(videos[index]);
             }
@@ -65,10 +70,10 @@ function TimeLine({ videoRef, setFrame, videoState, frame, videos, setVideos, vi
             }
         },
         start: new Date('Fri Apr 14 2023 00:00:00').getTime(),
-        end: new Date('Fri Apr 14 2023 00:00:00').getTime() + videoState?.totalDuration * 1000,
+        end: new Date('Fri Apr 14 2023 00:00:00').getTime() + videoState?.totalDuration * timeValue,
     };
     const customTimes = {
-        d: new Date('Fri Apr 14 2023 00:00:00').getTime() + frame * 1000,
+        d: new Date('Fri Apr 14 2023 00:00:00').getTime() + frame * timeValue,
     };
     useEffect(() => {
         if (videoState.video.length > 1) {
