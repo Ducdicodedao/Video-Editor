@@ -1,0 +1,46 @@
+.watermarkComponent-container {
+    width: 400px;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    padding: 20px;
+}
+
+.watermark-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.watermark-demo-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.watermark-demo-video {
+    margin-bottom: 20px;
+    width: 320px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.image-container {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin-bottom: 2rem;
+}
+
+.watermark-image-container img {
+    display: block;
+    width: 160px;
+    height: 80px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.watermark-upload-container {
+    display: flex;
+    align-items: center;
+}

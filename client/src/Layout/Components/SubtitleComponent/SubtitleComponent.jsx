@@ -25,6 +25,12 @@ function SubtitleComponent() {
     return (
         <div className="subtitleComponent-container">
             <h1 className="subtitle-title">Subtitles</h1>
+            <h2 className="subtitle-demo-title">Your video may like that</h2>
+            <video
+                src={'https://cdn.creatomate.com/renders/4ece8b26-c4b9-43e5-ba55-7509a1460f2c.mp4'}
+                className="subtitle-demo-video"
+                controls
+            />
             <div className="subtitle-card-list">
                 <div className="subtitle-card">
                     <input

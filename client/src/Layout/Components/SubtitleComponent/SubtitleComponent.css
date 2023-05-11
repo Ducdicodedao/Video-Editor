@@ -11,6 +11,18 @@
     margin-bottom: 20px;
 }
 
+.subtitle-demo-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.subtitle-demo-video {
+    margin-bottom: 20px;
+    width: 320px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
 .subtitle-card-list {
     display: flex;
     flex-direction: column;

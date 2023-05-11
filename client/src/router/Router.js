@@ -12,6 +12,8 @@ import Feedback from '~/pages/Feedback';
 import Media from '~/pages/Media';
 import VideosUpload from '~/Layout/Components/videosUpload/videosUpload';
 import MediaComponent from '~/Layout/Components/MediaComponent/MediaComponent';
+import SubtitleComponent from '~/Layout/Components/SubtitleComponent/SubtitleComponent';
+import WatermarkComponent from '~/Layout/Components/WatermarkComponent/WatermarkComponent';
 const publicRoutes = [
     { path: configRouter.home, component: Home },
     { path: configRouter.storage, component: Storage },
@@ -22,5 +24,7 @@ const publicRoutes = [
     { path: configRouter.cut, component: Cut },
     { path: configRouter.profile, component: Login },
     { path: configRouter.media, component: MediaComponent },
+    { path: configRouter.subtitle, component: SubtitleComponent },
+    { path: configRouter.watermark, component: WatermarkComponent },
 ];
 export { publicRoutes };

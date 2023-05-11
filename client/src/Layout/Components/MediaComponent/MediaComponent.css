@@ -5,7 +5,9 @@
     border-right: 1px solid #ccc;
     padding: 20px;
 }
-
+.stock-videos-container {
+    margin-bottom: 24px;
+}
 .stock-videos-title {
     font-size: 24px;
     margin-bottom: 20px;

@@ -8,4 +8,6 @@ export const configRouter = {
     storage: '/storage',
     feedback: '/feedback',
     media: '/media',
+    subtitle: '/subtitle',
+    watermark: '/watermark',
 };
