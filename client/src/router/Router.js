@@ -14,6 +14,7 @@ import VideosUpload from '~/Layout/Components/videosUpload/videosUpload';
 import MediaComponent from '~/Layout/Components/MediaComponent/MediaComponent';
 import SubtitleComponent from '~/Layout/Components/SubtitleComponent/SubtitleComponent';
 import WatermarkComponent from '~/Layout/Components/WatermarkComponent/WatermarkComponent';
+import TemplateComponent from '~/Layout/Components/TemplateComponent/TemplateComponent';
 const publicRoutes = [
     { path: configRouter.home, component: Home },
     { path: configRouter.storage, component: Storage },
@@ -26,5 +27,6 @@ const publicRoutes = [
     { path: configRouter.media, component: MediaComponent },
     { path: configRouter.subtitle, component: SubtitleComponent },
     { path: configRouter.watermark, component: WatermarkComponent },
+    { path: configRouter.template, component: TemplateComponent },
 ];
 export { publicRoutes };

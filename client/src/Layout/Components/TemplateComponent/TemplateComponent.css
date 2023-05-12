@@ -1,0 +1,41 @@
+.templateComponent-container {
+    width: 400px;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    padding: 20px;
+}
+.template-title-container {
+    display: flex;
+    justify-content: space-between;
+}
+.template-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.template-title-back {
+    cursor: pointer;
+}
+
+.template-category {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.template-demo-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.template-index-title {
+    font-size: 16px;
+}
+.template-item {
+    margin-bottom: 12px;
+}
+.template-demo-video {
+    margin-bottom: 20px;
+    width: 320px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 5px;
+}

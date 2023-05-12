@@ -6,7 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetStoreAuth } from '~/app/authSlice';
 const cx = classNames.bind(styles);
-const tab = ['Media', 'Subtitle', 'Watermark', 'Cut', 'Concatenate', 'Effect', 'Storage', 'feedback', 'Logout'];
+const tab = [
+    'Media',
+    'Subtitle',
+    'Watermark',
+    'Templates',
+    'Cut',
+    'Concatenate',
+    'Effect',
+    'Storage',
+    'feedback',
+    'Logout',
+];
 function Sidebar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();

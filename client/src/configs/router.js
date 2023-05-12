@@ -10,4 +10,5 @@ export const configRouter = {
     media: '/media',
     subtitle: '/subtitle',
     watermark: '/watermark',
+    template: '/templates',
 };
