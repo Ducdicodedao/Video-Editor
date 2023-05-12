@@ -12,4 +12,6 @@ router.post("/addOutro", videoController.AddOutro);
 router.post("/convertToGIF", videoController.ConvertToGIF);
 router.post("/create2By2VideoWall", videoController.Create2By2VideoWall);
 router.post("/splitVideo", videoController.SplitVideo);
+router.post("/storyVideo1", videoController.StoryVideo1);
+router.post("/testPostAPI", videoController.testPostAPI);
 module.exports = router;
