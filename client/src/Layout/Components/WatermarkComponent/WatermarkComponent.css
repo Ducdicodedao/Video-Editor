@@ -1,6 +1,6 @@
 .watermarkComponent-container {
-    width: 400px;
-    height: 100vh;
+    width: 390px;
+    height: 80vh;
     overflow-y: auto;
     border-right: 1px solid #ccc;
     padding: 20px;

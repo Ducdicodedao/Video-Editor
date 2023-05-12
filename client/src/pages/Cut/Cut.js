@@ -13,7 +13,6 @@ function Cut() {
                     <Video route={'trim'}></Video>
                 </div>
             </Stack>
-            <VideosUpload></VideosUpload>
         </Stack>
     );
 }

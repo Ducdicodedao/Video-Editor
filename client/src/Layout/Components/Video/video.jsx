@@ -18,7 +18,6 @@ function MyVideo({ route }) {
     const [isChangeVideo, setIsChangeVideo] = useState(false);
     const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
-    const [itemSelector, setItemSelector] = useState(null);
     const [isDragDrop, setIsDragDrop] = useState(false);
     useEffect(() => {
         if (!isSplit) {
@@ -40,44 +39,7 @@ function MyVideo({ route }) {
 
     const videoRef = useRef(null);
     const dispatch = useDispatch();
-    const handleChange = async (event) => {
-        if (event.target.files === null) {
-            return;
-        }
 
-        //----------------------------------------------------------------------------------------------
-        const file = event.target.files[0];
-
-        let formData = new FormData();
-        formData.append('files', file);
-        dispatch(uploadFile(formData));
-    };
-    const splitHandler = () => {
-        console.log(itemSelector);
-        if (itemSelector !== null) {
-            const temp = videos.filter((data) => data.id === itemSelector);
-            const video = videoState.video.filter((data) => data.name === temp[0].content);
-            const removeOriginalVideo = videos.filter((data) => data.id !== itemSelector);
-            removeOriginalVideo.push({
-                id: temp[0].content,
-                start: temp[0].start,
-                end: frame,
-                content: temp[0].content,
-                url: temp[0].url,
-            });
-            removeOriginalVideo.push({
-                id: temp[0].content + ' source2',
-                start: frame,
-                end: temp[0].end,
-                content: temp[0].content,
-                url: temp[0].url,
-                frameSkip: frame,
-            });
-            setIsSplit(true);
-            setVideos(removeOriginalVideo);
-            dispatch(splitVideo({ name: video[0].name + ' source2', url: video[0].url, duration: video[0].duration }));
-        }
-    };
     const timeChangeHandler = (e) => {
         if (e.id === 'd') {
             videoRef.current.pause();
@@ -117,10 +79,15 @@ function MyVideo({ route }) {
     }, [frame]);
     console.log(videos);
     return (
-        <Stack direction="column">
-            {loading ? (
+        <Stack direction="column" sx={{ position: 'absolute', left: '13%', width: '1100px', top: '10%' }}>
+            {/* {loading ? (
                 <Skeleton variant="rectangular" width="100%">
                     <div style={{ width: '800px', height: '400px' }} />
+                </Skeleton>
+            ) : ( */}
+            {loading ? (
+                <Skeleton variant="rectangular" width="100%">
+                    <div style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }} />
                 </Skeleton>
             ) : (
                 <>
@@ -153,61 +120,24 @@ function MyVideo({ route }) {
                         // controls
                         autoPlay={true}
                         ref={videoRef}
-                        style={{ width: '1000px', height: '400px' }}
-                    />
-                    <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        sx={{ marginLeft: '40px', marginRight: '40px', marginBottom: '10px' }}
-                    >
-                        <Stack direction="row">
-                            <Button sx={{ color: 'black' }} onClick={splitHandler}>
-                                <ContentCutIcon /> Split
-                            </Button>
-                            <Button component="label" sx={{ color: 'black' }}>
-                                <AddCircleOutlineIcon />
-                                Add Media
-                                <input type="file" hidden onChange={handleChange} />
-                            </Button>
-                        </Stack>
-                        <Stack alignItems="center" direction="row">
-                            <Button
-                                variant="contained"
-                                onClick={(e) => {
-                                    if (isPlay === true) {
-                                        videoRef.current.pause();
-                                        setIsPlay(!isPlay);
-                                    } else {
-                                        videoRef.current.play();
-                                        setIsPlay(!isPlay);
-                                    }
-                                }}
-                            >
-                                {' '}
-                                {isPlay ? <PauseIcon /> : <PlayArrowIcon />}
-                            </Button>
-
-                            <p style={{ fontSize: 15, marginLeft: '15px' }}>
-                                {frame} / {videoState?.totalDuration}
-                            </p>
-                        </Stack>
-                        <div>
-                            <p>|</p>
-                        </div>
-                    </Stack>
-                    <TimeLine
-                        videoRef={videoRef}
-                        setFrame={setFrame}
-                        videoState={videoState}
-                        videoSrc={videoSrc}
-                        frame={frame}
-                        videos={videos}
-                        setVideos={setVideos}
-                        setItemSelector={setItemSelector}
-                        timeChangeHandler={timeChangeHandler}
+                        style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }}
                     />
                 </>
             )}
+            <TimeLine
+                videoRef={videoRef}
+                setFrame={setFrame}
+                videoState={videoState}
+                videoSrc={videoSrc}
+                frame={frame}
+                videos={videos}
+                setVideos={setVideos}
+                timeChangeHandler={timeChangeHandler}
+                isSplit={isSplit}
+                setIsSplit={setIsSplit}
+                setIsPlay={setIsPlay}
+                isPlay={isPlay}
+            />
         </Stack>
     );
 }
