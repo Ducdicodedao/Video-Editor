@@ -45,7 +45,7 @@ function TemplateForm({ template, setTemplate }) {
             };
         });
 
-        const res = await httpRequest.post('/video/storyVideo1', body);
+        const res = await httpRequest.post(template.options.api, body);
         console.log(res);
     };
     return (

@@ -383,7 +383,8 @@ const SplitVideo = async (req, res) => {
 };
 
 //TEMPLATE-------------------------------------------------------------------------------------------------------------
-const StoryVideo1 = async (req, res) => {
+//Banner
+const TemplateVideo1 = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
 
     const options = {
@@ -400,7 +401,92 @@ const StoryVideo1 = async (req, res) => {
     client
         .render(options)
         .then((renders) => {
-            res.status(200).send({ data: renders, body: req.body });
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
+
+const TemplateVideo2 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const options = {
+        template_id: "8cdebf26-22a4-4106-b134-a531c050dd33",
+        modifications: {
+            "Product Image": req.body.image1,
+            Caption: req.body.text1,
+            "Call To Action": req.body.text2,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
+
+const TemplateVideo3 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const options = {
+        template_id: "639e9a5e-c588-486f-a012-df18cc901359",
+        modifications: {
+            "Background Image": req.body.image1,
+            "Product Image": req.body.image2,
+            "Call To Action": req.body.text1,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
+
+const TemplateVideo4 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const options = {
+        template_id: "7931db2a-92f4-4612-886b-7647ffc38b43",
+        modifications: {
+            "0dac167e-ca39-414b-8d88-1b08c8489bd6": req.body.image1,
+            Title: req.body.text1,
+            Caption: req.body.text2,
+            Discount: req.body.text3,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
+
+const TemplateVideo5 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const options = {
+        template_id: "34671373-59b9-4c13-8762-e79a55335d74",
+        modifications: {
+            Photo: req.body.image1,
+            "090694a5-d715-40a4-a92c-2285240ed5d1": req.body.text1,
+            "791fb67a-ac00-47e9-8d85-36e9ea3d1fd5": req.body.text2,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
         })
         .catch((error) => console.error(error));
 };
@@ -418,6 +504,10 @@ module.exports = {
     Create2By2VideoWall,
     SplitVideo,
     concatenate,
-    StoryVideo1,
+    TemplateVideo1,
+    TemplateVideo2,
+    TemplateVideo3,
+    TemplateVideo4,
+    TemplateVideo5,
     testPostAPI,
 };
