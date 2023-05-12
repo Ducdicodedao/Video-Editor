@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import Video from '../Components/Video';
 import styles from './DefaultLayout.module.scss';
 
 import Sidebar from './Sidebar';
@@ -11,6 +12,7 @@ function DefaultLayout({ children }) {
             <div className={cx('container')}>
                 <Sidebar />
                 <div className={cx('content')}>{children}</div>
+                <Video route={'trim'}></Video>
             </div>
         </div>
     );

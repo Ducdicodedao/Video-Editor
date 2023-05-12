@@ -2,10 +2,14 @@ import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo } from '~/app/videoSlice';
+import { concatenateVideo, splitVideo, uploadFile } from '~/app/videoSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
 function TimeLine({
     videoRef,
     setFrame,
@@ -14,8 +18,11 @@ function TimeLine({
     videos,
     setVideos,
     videoSrc,
-    setItemSelector,
     timeChangeHandler,
+    setIsSplit,
+    isSplit,
+    setIsPlay,
+    isPlay,
 }) {
     const timeValue = 60000;
 
@@ -23,6 +30,7 @@ function TimeLine({
     const dispatch = useDispatch();
     const videoss = videos;
     const [itemSize, setItemSize] = useState(90);
+    const [itemSelector, setItemSelector] = useState(null);
 
     const items = videoState.video.map((data) => {
         const video = videos.filter((e) => e.id === data.name);
@@ -34,8 +42,46 @@ function TimeLine({
             content: video[0]?.content,
         };
     });
+    const handleChange = async (event) => {
+        if (event.target.files === null) {
+            return;
+        }
+
+        //----------------------------------------------------------------------------------------------
+        const file = event.target.files[0];
+
+        let formData = new FormData();
+        formData.append('files', file);
+        dispatch(uploadFile(formData));
+    };
+    const splitHandler = () => {
+        console.log(itemSelector);
+        if (itemSelector !== null) {
+            const temp = videos.filter((data) => data.id === itemSelector);
+            const video = videoState.video.filter((data) => data.name === temp[0].content);
+            const removeOriginalVideo = videos.filter((data) => data.id !== itemSelector);
+            removeOriginalVideo.push({
+                id: temp[0].content,
+                start: temp[0].start,
+                end: frame,
+                content: temp[0].content,
+                url: temp[0].url,
+            });
+            removeOriginalVideo.push({
+                id: temp[0].content + ' source2',
+                start: frame,
+                end: temp[0].end,
+                content: temp[0].content,
+                url: temp[0].url,
+                frameSkip: frame,
+            });
+            setIsSplit(true);
+            setVideos(removeOriginalVideo);
+            dispatch(splitVideo({ name: video[0].name + ' source2', url: video[0].url, duration: video[0].duration }));
+        }
+    };
     var options = {
-        width: '99%',
+        width: '1150px',
         height: itemSize + 'px',
         maxHeight: '150px',
         stack: true,
@@ -77,11 +123,48 @@ function TimeLine({
     };
     useEffect(() => {
         if (videoState.video.length > 1) {
-            setItemSize((videoState.video.length - 1) * 30 + itemSize);
+            setItemSize((videoState.video.length - 1) * 15 + itemSize);
         }
     }, [videoState]);
     return (
-        <div style={{ marginLeft: '45px' }}>
+        <div style={{ position: 'absolute', top: '480px' }}>
+            <Stack direction="row" justifyContent="space-between" sx={{}}>
+                <Stack direction="row">
+                    <Button sx={{ color: 'black', fontSize: 8 }} onClick={splitHandler}>
+                        <ContentCutIcon sx={{ fontSize: 15 }} /> Split
+                    </Button>
+                    <Button component="label" sx={{ color: 'black', fontSize: 8 }}>
+                        <AddCircleOutlineIcon sx={{ fontSize: 15 }} />
+                        Add Media
+                        <input type="file" hidden onChange={handleChange} />
+                    </Button>
+                </Stack>
+                <Stack alignItems="center" direction="row">
+                    <Button
+                        variant="contained"
+                        onClick={(e) => {
+                            if (isPlay === true) {
+                                videoRef.current.pause();
+                                setIsPlay(!isPlay);
+                            } else {
+                                videoRef.current.play();
+                                setIsPlay(!isPlay);
+                            }
+                        }}
+                        sx={{ fontSize: 8, width: 30, height: 20 }}
+                    >
+                        {' '}
+                        {isPlay ? <PauseIcon /> : <PlayArrowIcon />}
+                    </Button>
+
+                    <p style={{ fontSize: 10, marginLeft: '15px' }}>
+                        {frame} / {videoState?.totalDuration}
+                    </p>
+                </Stack>
+                <div>
+                    <p>|</p>
+                </div>
+            </Stack>
             {/* <Stack direction="row"> */}
             <Timeline
                 id="timeline"
@@ -97,8 +180,8 @@ function TimeLine({
                 options={options}
                 customTimes={customTimes}
             />
-            <KeyboardArrowUpIcon sx={{ cursor: 'pointer' }} />
-            <KeyboardArrowDownIcon sx={{ cursor: 'pointer' }} />
+            {/* <KeyboardArrowUpIcon sx={{ cursor: 'pointer' }} />
+            <KeyboardArrowDownIcon sx={{ cursor: 'pointer' }} /> */}
             {/* </Stack> */}
 
             {/* <Button
