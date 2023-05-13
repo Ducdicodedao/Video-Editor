@@ -2,7 +2,7 @@ import './MediaComponent.css';
 import { useRef, useState } from 'react';
 function MediaComponent() {
     const videoList = [
-        { id: 1, url: 'https://creatomate-static.s3.amazonaws.com/demo/video1.mp4' },
+        { id: 1, url: 'https://creatomate-static.s3.amazonaws.com/demo/video1.mp4', name: 'video1' },
         { id: 2, url: 'https://creatomate-static.s3.amazonaws.com/demo/video2.mp4' },
         { id: 3, url: 'https://creatomate-static.s3.amazonaws.com/demo/video3.mp4' },
     ];
@@ -48,7 +48,13 @@ function MediaComponent() {
                 <h1 className="stock-videos-title">Stock Videos</h1>
                 <div className="stock-videos-list">
                     {videoList.map((video) => (
-                        <video key={video.id} src={video.url} className="stock-video" controls />
+                        <video
+                            key={video.id}
+                            src={video.url}
+                            className="stock-video"
+                            style={{ cursor: 'pointer' }}
+                            onClick={(e) => {}}
+                        />
                     ))}
                 </div>
             </div>

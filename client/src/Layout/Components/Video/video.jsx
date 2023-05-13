@@ -1,13 +1,11 @@
 import { Button, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDuration, splitVideo, trimVideo, uploadFile } from '~/app/videoSlice';
+import Draggable from 'react-draggable';
 import Skeleton from '@mui/material/Skeleton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
+
 import TimeLine from '../Timeline/Timeline';
-import ContentCutIcon from '@mui/icons-material/ContentCut';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 function MyVideo({ route }) {
     const videoState = useSelector((state) => state.video);
     const currentVideo = videoState.currentVideo;
@@ -19,6 +17,9 @@ function MyVideo({ route }) {
     const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
     const [isDragDrop, setIsDragDrop] = useState(false);
+    const eventLogger = (e, data) => {
+        console.log(e);
+    };
     useEffect(() => {
         if (!isSplit) {
             setVideos(
@@ -79,49 +80,49 @@ function MyVideo({ route }) {
     }, [frame]);
     console.log(videos);
     return (
-        <Stack direction="column" sx={{ position: 'absolute', left: '13%', width: '1100px', top: '10%' }}>
-            {/* {loading ? (
-                <Skeleton variant="rectangular" width="100%">
-                    <div style={{ width: '800px', height: '400px' }} />
-                </Skeleton>
-            ) : ( */}
+        <Stack direction="column" sx={{ position: 'absolute', left: '8%', width: '1100px', top: '0' }}>
             {loading ? (
                 <Skeleton variant="rectangular" width="100%">
                     <div style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }} />
                 </Skeleton>
             ) : (
                 <>
-                    <video
-                        src={videoSrc?.url}
-                        onTimeUpdate={(e) => {
-                            if (isChangeVideo === true) {
-                                if (videoSrc?.frameSkip !== undefined) {
-                                    videoRef.current.currentTime = frame - videoSrc.start + videoSrc?.frameSkip;
-                                } else {
-                                    videoRef.current.currentTime = frame - videoSrc.start;
+                    <div style={{ width: '850px', height: '520px', position: 'absolute', left: '33%' }}>
+                        <video
+                            src={videoSrc?.url}
+                            onTimeUpdate={(e) => {
+                                if (isChangeVideo === true) {
+                                    if (videoSrc?.frameSkip !== undefined) {
+                                        videoRef.current.currentTime = frame - videoSrc.start + videoSrc?.frameSkip;
+                                    } else {
+                                        videoRef.current.currentTime = frame - videoSrc.start;
+                                    }
+                                    setIsChangeVideo(false);
+                                    // videoRef.current.pause();
+                                    // setIsPlay(false);
                                 }
-                                setIsChangeVideo(false);
-                                // videoRef.current.pause();
-                                // setIsPlay(false);
-                            }
 
-                            if (e.target.currentTime + videoSrc.start >= frame) {
-                                const time = e.target.currentTime;
-                                if (isDragDrop) {
-                                    setIsDragDrop(false);
-                                } else if (videoSrc.frameSkip !== undefined) {
-                                    setFrame(time + videoSrc.start - videoSrc.frameSkip);
-                                } else {
-                                    setFrame(time + videoSrc.start);
+                                if (e.target.currentTime + videoSrc.start >= frame) {
+                                    const time = e.target.currentTime;
+                                    if (isDragDrop) {
+                                        setIsDragDrop(false);
+                                    } else if (videoSrc.frameSkip !== undefined) {
+                                        setFrame(time + videoSrc.start - videoSrc.frameSkip);
+                                    } else {
+                                        setFrame(time + videoSrc.start);
+                                    }
                                 }
-                            }
-                        }}
-                        onLoadStart={() => {}}
-                        // controls
-                        autoPlay={true}
-                        ref={videoRef}
-                        style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }}
-                    />
+                            }}
+                            onLoadStart={() => {}}
+                            // controls
+                            autoPlay={true}
+                            ref={videoRef}
+                            style={{ width: '100%', height: '100%' }}
+                        ></video>
+                    </div>
+                    <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
+                        <h6 style={{ cursor: 'grab' }}>hello</h6>
+                    </Draggable>
                 </>
             )}
             <TimeLine

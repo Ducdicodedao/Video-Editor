@@ -29,7 +29,7 @@ function TimeLine({
     const currentVideo = videoState.currentVideo;
     const dispatch = useDispatch();
     const videoss = videos;
-    const [itemSize, setItemSize] = useState(90);
+    const [itemSize, setItemSize] = useState(85);
     const [itemSelector, setItemSelector] = useState(null);
 
     const items = videoState.video.map((data) => {
@@ -81,9 +81,9 @@ function TimeLine({
         }
     };
     var options = {
-        width: '1150px',
+        width: '1200px',
         height: itemSize + 'px',
-        maxHeight: '150px',
+        maxHeight: '120px',
         stack: true,
         verticalScroll: true,
         showMajorLabels: false,
@@ -123,11 +123,11 @@ function TimeLine({
     };
     useEffect(() => {
         if (videoState.video.length > 1) {
-            setItemSize((videoState.video.length - 1) * 15 + itemSize);
+            setItemSize((videoState.video.length - 1) * 20 + itemSize);
         }
     }, [videoState]);
     return (
-        <div style={{ position: 'absolute', top: '480px' }}>
+        <div style={{ position: 'absolute', top: '535px' }}>
             <Stack direction="row" justifyContent="space-between" sx={{}}>
                 <Stack direction="row">
                     <Button sx={{ color: 'black', fontSize: 8 }} onClick={splitHandler}>
