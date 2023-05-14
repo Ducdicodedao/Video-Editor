@@ -17,6 +17,9 @@ router.post("/templateVideo2", videoController.TemplateVideo2);
 router.post("/templateVideo3", videoController.TemplateVideo3);
 router.post("/templateVideo4", videoController.TemplateVideo4);
 router.post("/templateVideo5", videoController.TemplateVideo5);
+router.post("/templateVideo6", videoController.TemplateVideo6);
+router.post("/templateVideo7", videoController.TemplateVideo7);
+router.post("/templateVideo8", videoController.TemplateVideo8);
 router.post("/testPostAPI", videoController.testPostAPI);
 
 module.exports = router;

@@ -18,9 +18,26 @@ function MyVideo({ route }) {
     const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
     const [isDragDrop, setIsDragDrop] = useState(false);
+
+
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (event) => {
+        const { clientX, clientY } = event;
+        const { left, top } = event.target.getBoundingClientRect();
+
+        const x = clientX - left;
+        const y = clientY - top;
+
+        console.log({ x, y });
+        setMousePosition({ x, y });
+    };
+
+
     const eventLogger = (e, data) => {
         console.log(e);
     };
+
     useEffect(() => {
         if (!isSplit) {
             setVideos(
@@ -117,7 +134,9 @@ function MyVideo({ route }) {
                                         setFrame(time + videoSrc.start);
                                     }
                                 }
+
                             }}
+                                                    onMouseMove={handleMouseMove}
                             onLoadStart={() => {}}
                             // controls
                             autoPlay={true}
@@ -135,6 +154,7 @@ function MyVideo({ route }) {
                     <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
                         <h6 style={{ cursor: 'grab' }}>hello</h6>
                     </Draggable>
+
                 </>
             )}
             <TimeLine

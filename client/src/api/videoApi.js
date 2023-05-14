@@ -34,6 +34,16 @@ export const upload = async (params) => {
         console.log(error);
     }
 };
+export const uploadPromax = async (params) => {
+    try {
+        const res = await httpRequest.post('/file/uploadVideoStock', params, {
+            'Content-Type': 'multipart/form-data',
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
 export const uploadImage = async (params) => {
     try {
         const res = await httpRequest.post('/file/uploadImage', params, {

@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const fileSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  url: { type: String, required: true, unique: true },
-  filename: { type: String, required: true },
-  duration: { type: String, require: true },
+    name: { type: String },
+    url: { type: String },
+    filename: { type: String },
+    duration: { type: String },
 });
 
 const File = mongoose.model("File", fileSchema);
