@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import './TemplateComponent.css';
 import * as httpRequest from '../../../util/HttpRequest';
-import { upload, uploadImage } from '../../../api/videoApi';
+import { upload, uploadPromax, uploadImage } from '../../../api/videoApi';
 function TemplateForm({ template, setTemplate }) {
     const [videos, setVideos] = useState(Array.from({ length: template.options.video }) || []);
     const [images, setImages] = useState(Array.from({ length: template.options.image }) || []);
@@ -12,6 +12,7 @@ function TemplateForm({ template, setTemplate }) {
         const updatedVideos = videos.slice(); // tạo bản sao của mảng videos
         let formData = new FormData();
         formData.append('files', file);
+        // const data = await uploadPromax(formData);
         const data = await upload(formData);
         updatedVideos[index] = data.url; // cập nhật giá trị phần tử tại vị trí index của bản sao
         setVideos(updatedVideos); // cập nhật state của mảng videos
