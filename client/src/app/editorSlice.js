@@ -20,7 +20,7 @@ export const videoSlice = createSlice({
     name: 'videos',
     initialState: {
         video: [],
-        currentVideo: null,
+        audio: [],
         loading: false,
         error: '',
         isError: false,
@@ -35,11 +35,14 @@ export const videoSlice = createSlice({
             console.log('ok');
             // window.storage.removeItem('persist:root');
         },
-        setCurrentVideo: (state, action) => {
-            state.currentVideo = action.payload;
-        },
         splitVideo: (state, action) => {
             state.video.push(action.payload);
+        },
+        selectVideoStock: (state, action) => {
+            state.video.push(action.payload);
+            if (state.video.length === 1) {
+            }
+            state.totalDuration += parseFloat(action.payload.duration);
         },
     },
     extraReducers: (builder) => {
@@ -104,12 +107,9 @@ export const videoSlice = createSlice({
         builder.addCase(uploadFile.fulfilled, (state, action) => {
             state.loading = false;
             state.video.push(action.payload);
-            if (state.video.length === 1) {
-                state.currentVideo = state.video[0];
-            }
-            state.totalDuration += action.payload.duration;
+            state.totalDuration += parseFloat(action.payload.duration);
         });
     },
 });
-export const { resetStoreVideo, setDuration, setCurrentVideo, splitVideo } = videoSlice.actions;
+export const { resetStoreVideo, setDuration, splitVideo, selectVideoStock } = videoSlice.actions;
 export default videoSlice.reducer;

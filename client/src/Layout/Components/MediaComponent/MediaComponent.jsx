@@ -1,11 +1,14 @@
 import './MediaComponent.css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { getVideoStock } from '~/api/videoApi';
+import { useDispatch } from 'react-redux';
+import { selectVideoStock, splitVideo } from '~/app/editorSlice';
 function MediaComponent() {
-    const videoList = [
-        { id: 1, url: 'https://creatomate-static.s3.amazonaws.com/demo/video1.mp4', name: 'video1' },
-        { id: 2, url: 'https://creatomate-static.s3.amazonaws.com/demo/video2.mp4' },
-        { id: 3, url: 'https://creatomate-static.s3.amazonaws.com/demo/video3.mp4' },
-    ];
+    // const videoList = [
+    //     { id: 1, url: 'https://creatomate-static.s3.amazonaws.com/demo/video1.mp4', name: 'video1' },
+    //     { id: 2, url: 'https://creatomate-static.s3.amazonaws.com/demo/video2.mp4' },
+    //     { id: 3, url: 'https://creatomate-static.s3.amazonaws.com/demo/video3.mp4' },
+    // ];
     const musicList = [
         {
             id: 1,
@@ -26,10 +29,11 @@ function MediaComponent() {
             url: 'https://firebasestorage.googleapis.com/v0/b/musicplayer-b04ab.appspot.com/o/discovery_song%2F1679834410627.mp3?alt=media&token=beef64b2-2077-4616-86f7-f888d5cddac4',
         },
     ];
-
+    const [videoList, setvideoList] = useState([]);
     const audioRef = useRef(null);
     const [currentSong, setCurrentSong] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
+    const dispatch = useDispatch();
     const playMusic = (url) => {
         setCurrentSong(url);
         if (audioRef.current) {
@@ -42,6 +46,12 @@ function MediaComponent() {
             setIsPlaying(!isPlaying);
         }
     };
+    const VideoStock = async () => {
+        setvideoList(await getVideoStock());
+    };
+    useEffect(() => {
+        VideoStock();
+    }, []);
     return (
         <div className="mediaComponent-container">
             <div className="stock-videos-container">
@@ -53,7 +63,9 @@ function MediaComponent() {
                             src={video.url}
                             className="stock-video"
                             style={{ cursor: 'pointer' }}
-                            onClick={(e) => {}}
+                            onClick={(e) => {
+                                dispatch(selectVideoStock(video));
+                            }}
                         />
                     ))}
                 </div>
