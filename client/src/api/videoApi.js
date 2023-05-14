@@ -54,6 +54,14 @@ export const uploadImage = async (params) => {
         console.log(error);
     }
 };
+export const getVideoStock = async () => {
+    try {
+        const res = await httpRequest.post('/file/getAll');
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
 export const splitVideo = async (params) => {
     try {
         const video1 = await httpRequest.post('/video/trimVideo', {

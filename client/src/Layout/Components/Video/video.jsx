@@ -1,16 +1,15 @@
 import { Button, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDuration, splitVideo, trimVideo, uploadFile } from '~/app/videoSlice';
+import Draggable from 'react-draggable';
 import Skeleton from '@mui/material/Skeleton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
+
 import TimeLine from '../Timeline/Timeline';
-import ContentCutIcon from '@mui/icons-material/ContentCut';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 function MyVideo({ route }) {
     const videoState = useSelector((state) => state.video);
-    const currentVideo = videoState.currentVideo;
+
+    const videoInRedux = videoState.video;
     const loading = useSelector((state) => state.video.loading);
     const [frame, setFrame] = useState(0);
     const [isPlay, setIsPlay] = useState(true);
@@ -19,6 +18,7 @@ function MyVideo({ route }) {
     const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
     const [isDragDrop, setIsDragDrop] = useState(false);
+
 
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -31,6 +31,11 @@ function MyVideo({ route }) {
 
         console.log({ x, y });
         setMousePosition({ x, y });
+    };
+
+
+    const eventLogger = (e, data) => {
+        console.log(e);
     };
 
     useEffect(() => {
@@ -49,9 +54,9 @@ function MyVideo({ route }) {
         } else {
             setIsSplit(false);
         }
-    }, [videoState.video]);
-
+    }, [videoInRedux]);
     const videoRef = useRef(null);
+    const audioRef = useRef(null);
     const dispatch = useDispatch();
 
     const timeChangeHandler = (e) => {
@@ -68,14 +73,19 @@ function MyVideo({ route }) {
         }
     };
     useEffect(() => {
+        let check = 0;
         for (var element of videos) {
             if (frame >= element?.start && frame < element?.end) {
                 if (element !== videoSrc) {
                     setVideoSrc(element);
                     setIsChangeVideo(true);
                 }
+                check = 1;
                 break;
             }
+        }
+        if (check === 0) {
+            setFrame(0);
         }
         // setVideoSrc(videos[0]);
         // setIsChangeVideo(true);
@@ -91,52 +101,60 @@ function MyVideo({ route }) {
             }
         }
     }, [frame]);
-    console.log(videos);
     return (
-        <Stack direction="column" sx={{ position: 'absolute', left: '13%', width: '1100px', top: '10%' }}>
-            {/* {loading ? (
-                <Skeleton variant="rectangular" width="100%">
-                    <div style={{ width: '800px', height: '400px' }} />
-                </Skeleton>
-            ) : ( */}
+        <Stack direction="column" sx={{ position: 'absolute', left: '8%', width: '1100px', top: '0' }}>
             {loading ? (
                 <Skeleton variant="rectangular" width="100%">
                     <div style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }} />
                 </Skeleton>
             ) : (
                 <>
-                    <video
-                        src={videoSrc?.url}
-                        onTimeUpdate={(e) => {
-                            if (isChangeVideo === true) {
-                                if (videoSrc?.frameSkip !== undefined) {
-                                    videoRef.current.currentTime = frame - videoSrc.start + videoSrc?.frameSkip;
-                                } else {
-                                    videoRef.current.currentTime = frame - videoSrc.start;
+                    <div style={{ width: '850px', height: '520px', position: 'absolute', left: '33%' }}>
+                        <video
+                            src={videoSrc?.url}
+                            onTimeUpdate={(e) => {
+                                if (isChangeVideo === true) {
+                                    if (videoSrc?.frameSkip !== undefined) {
+                                        videoRef.current.currentTime = frame - videoSrc.start + videoSrc?.frameSkip;
+                                    } else {
+                                        videoRef.current.currentTime = frame - videoSrc.start;
+                                    }
+                                    setIsChangeVideo(false);
+                                    // videoRef.current.pause();
+                                    // setIsPlay(false);
                                 }
-                                setIsChangeVideo(false);
-                                // videoRef.current.pause();
-                                // setIsPlay(false);
-                            }
 
-                            if (e.target.currentTime + videoSrc.start >= frame) {
-                                const time = e.target.currentTime;
-                                if (isDragDrop) {
-                                    setIsDragDrop(false);
-                                } else if (videoSrc.frameSkip !== undefined) {
-                                    setFrame(time + videoSrc.start - videoSrc.frameSkip);
-                                } else {
-                                    setFrame(time + videoSrc.start);
+                                if (e.target.currentTime + videoSrc.start >= frame) {
+                                    const time = e.target.currentTime;
+                                    if (isDragDrop) {
+                                        setIsDragDrop(false);
+                                    } else if (videoSrc.frameSkip !== undefined) {
+                                        setFrame(time + videoSrc.start - videoSrc.frameSkip);
+                                    } else {
+                                        setFrame(time + videoSrc.start);
+                                    }
                                 }
-                            }
-                        }}
-                        onMouseMove={handleMouseMove}
-                        onLoadStart={() => {}}
-                        // controls
-                        autoPlay={true}
-                        ref={videoRef}
-                        style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }}
-                    />
+
+                            }}
+                                                    onMouseMove={handleMouseMove}
+                            onLoadStart={() => {}}
+                            // controls
+                            autoPlay={true}
+                            ref={videoRef}
+                            style={{ width: '100%', height: '100%' }}
+                        ></video>
+                    </div>
+                    <audio
+                        ref={audioRef}
+                        src="https://firebasestorage.googleapis.com/v0/b/musicplayer-b04ab.appspot.com/o/discovery_song%2F1679834410627.mp3?alt=media&token=beef64b2-2077-4616-86f7-f888d5cddac4"
+                        controls
+                        autoplay
+                        style={{ display: 'none' }}
+                    ></audio>
+                    <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
+                        <h6 style={{ cursor: 'grab' }}>hello</h6>
+                    </Draggable>
+
                 </>
             )}
             <TimeLine

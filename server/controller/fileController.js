@@ -43,8 +43,21 @@ const getAllFiles = async (req, res) => {
     }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const data = FileModel.find({}, function (err, docs) {
+      if (!err) {
+        res.status(200).send(docs);
+      } else {
+        throw err;
+      }
+    });
+    // console.log(data.schema.plugins);
+  } catch (error) {}
+};
 module.exports = {
-    uploadFile,
-    uploadVideoStock,
-    getAllFiles,
+  uploadFile,
+  uploadVideoStock,
+  getAll,
+  getAllFiles
 };
