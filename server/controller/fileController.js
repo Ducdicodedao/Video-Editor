@@ -35,7 +35,20 @@ const uploadVideoStock = async (req, res) => {
     res.status(401).send({ msg: error.message });
   }
 };
+const getAll = async (req, res) => {
+  try {
+    const data = FileModel.find({}, function (err, docs) {
+      if (!err) {
+        res.status(200).send(docs);
+      } else {
+        throw err;
+      }
+    });
+    // console.log(data.schema.plugins);
+  } catch (error) {}
+};
 module.exports = {
   uploadFile,
   uploadVideoStock,
+  getAll,
 };

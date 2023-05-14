@@ -20,4 +20,5 @@ router.post(
   videoFileUploader.array("files"),
   FileController.uploadVideoStock
 );
+router.post("/getAll", FileController.getAll);
 module.exports = router;

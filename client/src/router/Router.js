@@ -16,7 +16,9 @@ import SubtitleComponent from '~/Layout/Components/SubtitleComponent/SubtitleCom
 import WatermarkComponent from '~/Layout/Components/WatermarkComponent/WatermarkComponent';
 import TemplateComponent from '~/Layout/Components/TemplateComponent/TemplateComponent';
 const publicRoutes = [
-    { path: configRouter.home, component: Home },
+    // { path: configRouter.home, component: Home },
+    { path: configRouter.home, component: MediaComponent },
+    { path: configRouter.media, component: MediaComponent },
     { path: configRouter.storage, component: Storage },
     { path: configRouter.feedback, component: Feedback },
     { path: configRouter.login, component: Login },
@@ -24,7 +26,6 @@ const publicRoutes = [
     { path: configRouter.concatenate, component: Concatenate },
     { path: configRouter.cut, component: Cut },
     { path: configRouter.profile, component: Login },
-    { path: configRouter.media, component: MediaComponent },
     { path: configRouter.subtitle, component: SubtitleComponent },
     { path: configRouter.watermark, component: WatermarkComponent },
     { path: configRouter.template, component: TemplateComponent },

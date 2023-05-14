@@ -8,7 +8,8 @@ import TimeLine from '../Timeline/Timeline';
 
 function MyVideo({ route }) {
     const videoState = useSelector((state) => state.video);
-    const currentVideo = videoState.currentVideo;
+
+    const videoInRedux = videoState.video;
     const loading = useSelector((state) => state.video.loading);
     const [frame, setFrame] = useState(0);
     const [isPlay, setIsPlay] = useState(true);
@@ -36,9 +37,9 @@ function MyVideo({ route }) {
         } else {
             setIsSplit(false);
         }
-    }, [videoState.video]);
-
+    }, [videoInRedux]);
     const videoRef = useRef(null);
+    const audioRef = useRef(null);
     const dispatch = useDispatch();
 
     const timeChangeHandler = (e) => {
@@ -55,14 +56,19 @@ function MyVideo({ route }) {
         }
     };
     useEffect(() => {
+        let check = 0;
         for (var element of videos) {
             if (frame >= element?.start && frame < element?.end) {
                 if (element !== videoSrc) {
                     setVideoSrc(element);
                     setIsChangeVideo(true);
                 }
+                check = 1;
                 break;
             }
+        }
+        if (check === 0) {
+            setFrame(0);
         }
         // setVideoSrc(videos[0]);
         // setIsChangeVideo(true);
@@ -78,7 +84,6 @@ function MyVideo({ route }) {
             }
         }
     }, [frame]);
-    console.log(videos);
     return (
         <Stack direction="column" sx={{ position: 'absolute', left: '8%', width: '1100px', top: '0' }}>
             {loading ? (
@@ -120,6 +125,13 @@ function MyVideo({ route }) {
                             style={{ width: '100%', height: '100%' }}
                         ></video>
                     </div>
+                    <audio
+                        ref={audioRef}
+                        src="https://firebasestorage.googleapis.com/v0/b/musicplayer-b04ab.appspot.com/o/discovery_song%2F1679834410627.mp3?alt=media&token=beef64b2-2077-4616-86f7-f888d5cddac4"
+                        controls
+                        autoplay
+                        style={{ display: 'none' }}
+                    ></audio>
                     <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
                         <h6 style={{ cursor: 'grab' }}>hello</h6>
                     </Draggable>

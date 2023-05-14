@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { Stack } from '@mui/material';
 import VideosUpload from '~/Layout/Components/videosUpload/videosUpload';
 import { useDispatch } from 'react-redux';
-import { setDuration, uploadFile } from '~/app/videoSlice';
+import { setDuration, uploadFile } from '~/app/editorSlice';
 function Concatenate() {
     const dispatch = useDispatch();
     const handleChange = async (event) => {

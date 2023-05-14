@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentVideo, uploadFile } from '~/app/videoSlice';
+import { uploadFile } from '~/app/editorSlice';
 import './videosUpload.css'; // Import the CSS file
 
 function VideosUpload({ videoURL, duration }) {
@@ -34,7 +34,7 @@ function VideosUpload({ videoURL, duration }) {
                     key={data.id}
                     className="video-item"
                     onClick={() => {
-                        dispatch(setCurrentVideo(data));
+                        // dispatch(setCurrentVideo(data));
                     }}
                 >
                     <div className="video-thumbnail"></div>

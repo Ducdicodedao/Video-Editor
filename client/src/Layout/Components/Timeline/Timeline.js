@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo, splitVideo, uploadFile } from '~/app/videoSlice';
+import { concatenateVideo, splitVideo, uploadFile } from '~/app/editorSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
@@ -123,7 +123,7 @@ function TimeLine({
     };
     useEffect(() => {
         if (videoState.video.length > 1) {
-            setItemSize((videoState.video.length - 1) * 20 + itemSize);
+            if (itemSize < 120) setItemSize((videoState.video.length - 1) * 20 + itemSize);
         }
     }, [videoState]);
     return (
@@ -158,7 +158,7 @@ function TimeLine({
                     </Button>
 
                     <p style={{ fontSize: 10, marginLeft: '15px' }}>
-                        {frame} / {videoState?.totalDuration}
+                        {frame.toFixed(2)} / {videoState?.totalDuration.toFixed(2)}
                     </p>
                 </Stack>
                 <div>
