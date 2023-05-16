@@ -3,10 +3,15 @@ import { useState } from 'react';
 import './TemplateComponent.css';
 import * as httpRequest from '../../../util/HttpRequest';
 import { upload, uploadPromax, uploadImage } from '../../../api/videoApi';
+import { useDispatch } from 'react-redux';
+import { selectVideoStock } from '~/app/editorSlice';
+
 function TemplateForm({ template, setTemplate }) {
     const [videos, setVideos] = useState(Array.from({ length: template.options.video }) || []);
     const [images, setImages] = useState(Array.from({ length: template.options.image }) || []);
     const [texts, setTexts] = useState(Array.from({ length: template.options.text }) || []);
+
+    const dispatch = useDispatch();
     const handleVideoUpload = async (event, index) => {
         const file = event.target.files[0];
         const updatedVideos = videos.slice(); // tạo bản sao của mảng videos
@@ -48,6 +53,14 @@ function TemplateForm({ template, setTemplate }) {
 
         const res = await httpRequest.post(template.options.api, body);
         console.log(res);
+
+        dispatch(
+            selectVideoStock({
+                name: template.name,
+                url: res.data[0].url,
+                duration: res.data[0].duration,
+            }),
+        );
     };
     return (
         <>

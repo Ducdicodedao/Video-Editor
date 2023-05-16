@@ -19,7 +19,6 @@ function MyVideo({ route }) {
     const [videoSrc, setVideoSrc] = useState(0);
     const [isDragDrop, setIsDragDrop] = useState(false);
 
-
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
     const handleMouseMove = (event) => {
@@ -29,10 +28,9 @@ function MyVideo({ route }) {
         const x = clientX - left;
         const y = clientY - top;
 
-        console.log({ x, y });
+        //console.log({ x, y });
         setMousePosition({ x, y });
     };
-
 
     const eventLogger = (e, data) => {
         console.log(e);
@@ -134,9 +132,8 @@ function MyVideo({ route }) {
                                         setFrame(time + videoSrc.start);
                                     }
                                 }
-
                             }}
-                                                    onMouseMove={handleMouseMove}
+                            onMouseMove={handleMouseMove}
                             onLoadStart={() => {}}
                             // controls
                             autoPlay={true}
@@ -154,7 +151,6 @@ function MyVideo({ route }) {
                     <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
                         <h6 style={{ cursor: 'grab' }}>hello</h6>
                     </Draggable>
-
                 </>
             )}
             <TimeLine
