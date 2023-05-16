@@ -8,7 +8,7 @@ export const configRouter = {
     storage: '/storage',
     feedback: '/feedback',
     media: '/media',
-    subtitle: '/subtitle',
+    audio: '/audio',
     watermark: '/watermark',
     template: '/templates',
 };

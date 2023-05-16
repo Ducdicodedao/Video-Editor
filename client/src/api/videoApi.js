@@ -56,7 +56,15 @@ export const uploadImage = async (params) => {
 };
 export const getVideoStock = async () => {
     try {
-        const res = await httpRequest.post('/file/getAll');
+        const res = await httpRequest.post('/file/getAllVideo');
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const getAudioStock = async () => {
+    try {
+        const res = await httpRequest.post('/file/getAllAudio');
         return res;
     } catch (error) {
         console.log(error);
