@@ -44,6 +44,13 @@ export const videoSlice = createSlice({
             }
             state.totalDuration += parseFloat(action.payload.duration);
         },
+        selectAudioStock: (state, action) => {
+            state.audio.push(action.payload);
+            state.totalDuration += parseFloat(action.payload.duration);
+        },
+        updateAudio: (state, action) => {
+            state.audio = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(trimVideo.pending, (state, action) => {
@@ -111,5 +118,6 @@ export const videoSlice = createSlice({
         });
     },
 });
-export const { resetStoreVideo, setDuration, splitVideo, selectVideoStock } = videoSlice.actions;
+export const { resetStoreVideo, setDuration, splitVideo, selectVideoStock, selectAudioStock, updateAudio } =
+    videoSlice.actions;
 export default videoSlice.reducer;
