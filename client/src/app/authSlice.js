@@ -4,7 +4,10 @@ export const signIn = createAsyncThunk('auth/signIn', async (params, thunkAPI) =
     const res = await authApi.signIn(params);
     return res;
 });
-
+export const signUp = createAsyncThunk('auth/signUp', async (params, thunkAPI) => {
+    const res = await authApi.signUp(params);
+    return res;
+});
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -35,6 +38,21 @@ export const authSlice = createSlice({
         builder.addCase(signIn.fulfilled, (state, action) => {
             state.loading = false;
             state.user = action.payload;
+            console.log(action.payload);
+        });
+
+        builder.addCase(signUp.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(signUp.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload.msg;
+            state.isError = true;
+        });
+        builder.addCase(signUp.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload;
+            console.log(action.payload);
         });
     },
 });

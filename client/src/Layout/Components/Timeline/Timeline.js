@@ -1,8 +1,8 @@
-import { Button } from '@mui/material';
+import { Button, Modal } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo, splitVideo, uploadFile } from '~/app/editorSlice';
+import { concatenateVideo, renderVideo, splitVideo, uploadFile } from '~/app/editorSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
@@ -10,6 +10,8 @@ import ContentCutIcon from '@mui/icons-material/ContentCut';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import DownloadIcon from '@mui/icons-material/Download';
+
 function TimeLine({
     videoRef,
     setFrame,
@@ -26,12 +28,12 @@ function TimeLine({
 }) {
     const timeValue = 60000;
 
-    const currentVideo = videoState.currentVideo;
     const dispatch = useDispatch();
-    const videoss = videos;
     const [itemSize, setItemSize] = useState(85);
     const [itemSelector, setItemSelector] = useState(null);
-
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     const items = videoState.video.map((data) => {
         const video = videos.filter((e) => e.id === data.name);
         return {
@@ -79,6 +81,9 @@ function TimeLine({
             setVideos(removeOriginalVideo);
             dispatch(splitVideo({ name: video[0].name + ' source2', url: video[0].url, duration: video[0].duration }));
         }
+    };
+    const handleRender = () => {
+        dispatch(renderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
     };
     var options = {
         width: '1200px',
@@ -138,6 +143,20 @@ function TimeLine({
                         Add Media
                         <input type="file" hidden onChange={handleChange} />
                     </Button>
+                    <Button sx={{ fontSize: 8, color: 'black' }} onClick={handleOpen}>
+                        <DownloadIcon />
+                        Download Section
+                    </Button>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Stack
+                            sx={{ width: 600, height: 500, backgroundColor: 'black', margin: 'auto', marginTop: 10 }}
+                        ></Stack>
+                    </Modal>
                 </Stack>
                 <Stack alignItems="center" direction="row">
                     <Button

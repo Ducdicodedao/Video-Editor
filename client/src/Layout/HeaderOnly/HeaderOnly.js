@@ -1,9 +1,8 @@
-
 function HeaderOnly({ children }) {
     return (
         <div>
-            <div className="container">
-                <div className="content">{children}</div>
+            <div>
+                <div>{children}</div>
             </div>
         </div>
     );
