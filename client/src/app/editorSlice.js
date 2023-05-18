@@ -12,6 +12,10 @@ export const concatenateVideo = createAsyncThunk('video/concat', async (params, 
     const res = await videoApi.concatVideo(params);
     return res;
 });
+export const renderVideo = createAsyncThunk('video/render', async (params, thunkAPI) => {
+    const res = await videoApi.renderVideo(params);
+    return res;
+});
 // export const splitVideo = createAsyncThunk('video/split', async (params, thunkAPI) => {
 //     const res = await videoApi.splitVideo(params);
 //     return res;
@@ -79,6 +83,18 @@ export const videoSlice = createSlice({
             state.currentVideo = action.payload.data[0];
         });
 
+        builder.addCase(renderVideo.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(renderVideo.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload.msg;
+            state.isError = true;
+        });
+        builder.addCase(renderVideo.fulfilled, (state, action) => {
+            state.loading = false;
+            console.log(action.payload);
+        });
         // builder.addCase(splitVideo.pending, (state, action) => {
         //     state.loading = true;
         // });

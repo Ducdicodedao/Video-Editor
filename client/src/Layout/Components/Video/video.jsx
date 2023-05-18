@@ -3,9 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Draggable from 'react-draggable';
 import Skeleton from '@mui/material/Skeleton';
-
 import TimeLine from '../Timeline/Timeline';
-
 function MyVideo({ route }) {
     const videoState = useSelector((state) => state.video);
 
@@ -99,6 +97,7 @@ function MyVideo({ route }) {
                     setAudioSrc(i);
                 }
                 count = 1;
+                break;
             }
         }
         if (count === 0) setAudioSrc(null);
@@ -124,7 +123,7 @@ function MyVideo({ route }) {
             if (isPlay) {
                 audioRef.current.play();
             }
-            audioRef.current.currentTime = frame - audioSrc?.start;
+            // audioRef.current.currentTime = frame - audioSrc?.start;
         }
     }, [frame]);
     return (
@@ -170,9 +169,6 @@ function MyVideo({ route }) {
                         ></video>
                     </div>
                     <audio ref={audioRef} src={audioSrc?.url} controls autoplay style={{ display: 'none' }}></audio>
-                    <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
-                        <h6 style={{ cursor: 'grab' }}>hello</h6>
-                    </Draggable>
                 </>
             )}
             <TimeLine
