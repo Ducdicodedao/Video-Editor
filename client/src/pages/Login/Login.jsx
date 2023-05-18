@@ -14,7 +14,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Auth } from '~/contexts/authContext';
 import httpRequest from '../../util/HttpRequest.js';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '~/app/authSlice.js';
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -28,6 +28,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
     },
 }));
 function Login() {
+    const { isError, error, user } = useSelector((state) => state.auth);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -42,20 +43,25 @@ function Login() {
     const handleClose = () => {
         setOpen(false);
     };
+    if (user !== null) {
+        navigate('/');
+    }
     const dispatch = useDispatch();
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
     const handleSubmit = async () => {
         try {
-            console.log(email, password);
             // const { data } = await httpRequest.post('/api/auth/signin', {
             //     email,
             //     password,
             // });
             dispatch(signIn({ email, password }));
+            if (isError) {
+                setMessage(error);
+                setOpen(true);
+            }
             // localStorage.setItem('userInfo', JSON.stringify(data));
-            navigate('/');
         } catch (err) {
             setMessage('Invalid Email or Password');
             setOpen(true);

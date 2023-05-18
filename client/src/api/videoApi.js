@@ -90,7 +90,29 @@ export const splitVideo = async (params) => {
 
 export const renderVideo = async (params) => {
     try {
+        console.log(params);
         const res = await httpRequest.post('/video/render', params);
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const storeVideo = async (params) => {
+    try {
+        console.log(params);
+        const res = await httpRequest.post('/storage/storeVideo', params);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const getVideoStorage = async (params) => {
+    try {
+        console.log(params);
+        const res = await httpRequest.post('/storage/getVideoStorage', { id: params.id });
+        console.log(res);
         return res;
     } catch (error) {
         console.log(error);

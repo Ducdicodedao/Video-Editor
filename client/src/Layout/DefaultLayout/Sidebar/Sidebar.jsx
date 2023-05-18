@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { resetStoreAuth } from '~/app/authSlice';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 const cx = classNames.bind(styles);
-const tab = ['Media', 'Audio', 'Watermark', 'Templates', 'Effect', 'Storage', 'feedback', 'Logout'];
+const tab = ['Media', 'Audio', 'Templates', 'Logout'];
 function Sidebar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
