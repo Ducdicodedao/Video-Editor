@@ -1,7 +1,7 @@
 import './MediaComponent.css';
 import { useEffect, useRef, useState } from 'react';
-import { getAudioStock, getVideoStock } from '~/api/videoApi';
-import { useDispatch } from 'react-redux';
+import { getAudioStock, getVideoStock, getVideoStorage } from '~/api/videoApi';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAudioStock, selectVideoStock, splitVideo } from '~/app/editorSlice';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
@@ -33,11 +33,14 @@ function MediaComponent() {
     //         url: 'https://firebasestorage.googleapis.com/v0/b/musicplayer-b04ab.appspot.com/o/discovery_song%2F1679834410627.mp3?alt=media&token=beef64b2-2077-4616-86f7-f888d5cddac4',
     //     },
     // ];
+    const [storageVideo, setstorageVideo] = useState([]);
     const [videoList, setvideoList] = useState([]);
     const [musicList, setMusicList] = useState([]);
     const audioRef = useRef(null);
     const [currentSong, setCurrentSong] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
+    const user = useSelector((data) => data.auth.user);
+
     const dispatch = useDispatch();
     const playMusic = (url) => {
         setCurrentSong(url);
@@ -52,6 +55,9 @@ function MediaComponent() {
         }
     };
     const getFileInStock = async () => {
+        if (user !== null) {
+            setstorageVideo(await getVideoStorage({ id: user.user._id }));
+        }
         setvideoList(await getVideoStock());
         setMusicList(await getAudioStock());
     };
@@ -76,6 +82,25 @@ function MediaComponent() {
                     ))}
                 </div>
             </div>
+            {user && (
+                <div className="stock-videos-container">
+                    <h1 className="stock-videos-title">Storage Videos</h1>
+                    <div className="stock-videos-list">
+                        {storageVideo.map((video) => (
+                            <video
+                                key={video?.id}
+                                src={video.url}
+                                className="stock-video"
+                                style={{ cursor: 'pointer' }}
+                                onClick={(e) => {
+                                    dispatch(selectVideoStock(video));
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <div className="stock-music-container">
                 <h1 className="stock-music-title">Stock Music</h1>
                 <div className="music-card-list">

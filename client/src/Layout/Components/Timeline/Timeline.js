@@ -1,8 +1,8 @@
 import { Button, Modal } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo, renderVideo, splitVideo, uploadFile } from '~/app/editorSlice';
+import { concatenateVideo, renderVideo, setRenderVideo, splitVideo, uploadFile } from '~/app/editorSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
@@ -11,7 +11,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import DownloadIcon from '@mui/icons-material/Download';
-
+import RenderVideo from '../RenderVideo/RenderVideo';
 function TimeLine({
     videoRef,
     setFrame,
@@ -27,13 +27,21 @@ function TimeLine({
     isPlay,
 }) {
     const timeValue = 60000;
-
+    const renderData = useSelector((state) => state.video.renderVideo);
     const dispatch = useDispatch();
     const [itemSize, setItemSize] = useState(85);
     const [itemSelector, setItemSelector] = useState(null);
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => {
+        dispatch(setRenderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setVideos(renderData.videos);
+        dispatch(setRenderVideo(null));
+    };
     const items = videoState.video.map((data) => {
         const video = videos.filter((e) => e.id === data.name);
         return {
@@ -131,6 +139,11 @@ function TimeLine({
             if (itemSize < 120) setItemSize((videoState.video.length - 1) * 20 + itemSize);
         }
     }, [videoState]);
+    useEffect(() => {
+        if (renderData !== null) {
+            setOpen(true);
+        }
+    }, []);
     return (
         <div style={{ position: 'absolute', top: '535px' }}>
             <Stack direction="row" justifyContent="space-between" sx={{}}>
@@ -153,9 +166,7 @@ function TimeLine({
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                     >
-                        <Stack
-                            sx={{ width: 600, height: 500, backgroundColor: 'black', margin: 'auto', marginTop: 10 }}
-                        ></Stack>
+                        <RenderVideo handleClose={handleClose}></RenderVideo>
                     </Modal>
                 </Stack>
                 <Stack alignItems="center" direction="row">

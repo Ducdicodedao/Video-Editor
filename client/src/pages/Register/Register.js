@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import httpRequest from '../../util/HttpRequest.js';
 import { Auth } from '~/contexts/authContext';
 import { useDispatch } from 'react-redux';
-import { signUp } from '~/app/authSlice';
+import { signUp } from '~/api/authApi';
 
 const cx = classNames.bind(styles);
 function Register() {
@@ -36,8 +36,15 @@ function Register() {
             return;
         }
         try {
-            const data = dispatch(signUp({ name: Name, password: Password, email: Email }));
+            const data = await signUp({ name: Name, password: Password, email: Email });
             console.log(data);
+            if (data.message) {
+                setMessage(data.message);
+                setOpen(true);
+                return;
+            } else {
+                navigate('/login');
+            }
             // const { data } = await httpRequest.post('/api/auth/signup', {
             //     name: Name,
             //     email: Email,
@@ -48,7 +55,6 @@ function Register() {
             //     payload: data,
             // });
             // localStorage.setItem('userInfo', JSON.stringify(data));
-            navigate('/login');
         } catch (err) {
             setMessage('Email is already Exist');
             setOpen(true);

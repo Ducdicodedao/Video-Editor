@@ -16,6 +16,10 @@ export const renderVideo = createAsyncThunk('video/render', async (params, thunk
     const res = await videoApi.renderVideo(params);
     return res;
 });
+export const storeVideo = createAsyncThunk('video/store', async (params, thunkAPI) => {
+    const res = await videoApi.storeVideo(params);
+    return res;
+});
 // export const splitVideo = createAsyncThunk('video/split', async (params, thunkAPI) => {
 //     const res = await videoApi.splitVideo(params);
 //     return res;
@@ -29,8 +33,12 @@ export const videoSlice = createSlice({
         error: '',
         isError: false,
         totalDuration: 0,
+        renderVideo: null,
     },
     reducers: {
+        setRenderVideo: (state, action) => {
+            state.renderVideo = action.payload;
+        },
         resetStoreVideo: (state, action) => {
             state.video = [];
             state.loading = false;
@@ -93,7 +101,21 @@ export const videoSlice = createSlice({
         });
         builder.addCase(renderVideo.fulfilled, (state, action) => {
             state.loading = false;
-            console.log(action.payload);
+            state.video = [];
+            state.video.push(action.payload);
+            state.totalDuration = parseFloat(action.payload.duration);
+        });
+
+        builder.addCase(storeVideo.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(storeVideo.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload.msg;
+            state.isError = true;
+        });
+        builder.addCase(storeVideo.fulfilled, (state, action) => {
+            state.loading = false;
         });
         // builder.addCase(splitVideo.pending, (state, action) => {
         //     state.loading = true;
@@ -134,6 +156,13 @@ export const videoSlice = createSlice({
         });
     },
 });
-export const { resetStoreVideo, setDuration, splitVideo, selectVideoStock, selectAudioStock, updateAudio } =
-    videoSlice.actions;
+export const {
+    resetStoreVideo,
+    setDuration,
+    splitVideo,
+    selectVideoStock,
+    selectAudioStock,
+    updateAudio,
+    setRenderVideo,
+} = videoSlice.actions;
 export default videoSlice.reducer;

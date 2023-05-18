@@ -80,7 +80,11 @@ const renderVideo = async (req, res) => {
     client
       .render({ source })
       .then((renders) => {
-        // res.status(200).send({ data: renders });
+        res.status(200).send({
+          name: "video Render",
+          duration: renders[0].duration,
+          url: renders[0].url,
+        });
         console.log(renders);
       })
       .catch((error) => {
