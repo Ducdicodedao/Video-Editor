@@ -178,6 +178,7 @@ function TimeLine({
     useEffect(() => {
         if (renderData !== null) {
             setOpen(true);
+            videoRef.current.pause();
         }
     }, []);
     return (
