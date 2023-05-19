@@ -8,9 +8,15 @@ const uploadFile = async (req, res) => {
       url: req.files[0].path,
       filename: req.files[0].filename,
     };
-    getVideoDurationInSeconds(req.files[0].path).then((duration) => {
-      res.status(200).send({ ...newFileUpload, duration: duration });
-    });
+    const filetype = req.files[0].mimetype.split("/");
+    console.log(filetype);
+    if (filetype[0] !== "image") {
+      getVideoDurationInSeconds(req.files[0].path).then((duration) => {
+        res.status(200).send({ ...newFileUpload, duration: duration });
+      });
+    } else {
+      res.status(200).send({ ...newFileUpload });
+    }
   } catch (error) {
     res.status(401).send({ msg: error.message });
   }

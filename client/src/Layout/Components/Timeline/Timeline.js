@@ -2,7 +2,7 @@ import { Button, Modal } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo, renderVideo, setRenderVideo, splitVideo, uploadFile } from '~/app/editorSlice';
+import { concatenateVideo, renderVideo, setRenderVideo, splitVideo, uploadAudio, uploadFile } from '~/app/editorSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
@@ -33,13 +33,15 @@ function TimeLine({
     const [itemSelector, setItemSelector] = useState(null);
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
-        dispatch(setRenderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+        if (videos.length > 0) {
+            dispatch(setRenderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+        }
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setVideos(renderData.videos);
+        // setVideos(renderData.videos);
         dispatch(setRenderVideo(null));
     };
     const items = videoState.video.map((data) => {
@@ -63,6 +65,18 @@ function TimeLine({
         let formData = new FormData();
         formData.append('files', file);
         dispatch(uploadFile(formData));
+    };
+    const handleChangeMp3 = async (event) => {
+        if (event.target.files === null) {
+            return;
+        }
+
+        //----------------------------------------------------------------------------------------------
+        const file = event.target.files[0];
+
+        let formData = new FormData();
+        formData.append('files', file);
+        dispatch(uploadAudio(formData));
     };
     const splitHandler = () => {
         console.log(itemSelector);
@@ -155,6 +169,11 @@ function TimeLine({
                         <AddCircleOutlineIcon sx={{ fontSize: 15 }} />
                         Add Media
                         <input type="file" hidden onChange={handleChange} />
+                    </Button>
+                    <Button component="label" sx={{ color: 'black', fontSize: 8 }}>
+                        <AddCircleOutlineIcon sx={{ fontSize: 15 }} />
+                        Add Audio
+                        <input type="file" accept=".mp3" hidden onChange={handleChangeMp3} />
                     </Button>
                     <Button sx={{ fontSize: 8, color: 'black' }} onClick={handleOpen}>
                         <DownloadIcon />
