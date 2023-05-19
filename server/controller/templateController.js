@@ -35,7 +35,7 @@ const TemplateVideo1 = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
 
     const options = {
-        template_id: "549b6875-5e76-4fa5-bbb0-8655172c2dc3",
+        template_id: "0117fc0a-4686-4542-a1e2-d10fae5e5356",
         modifications: {
             "ecf1a01d-ff16-4b5f-a58c-a4998b02e502": req.body.image1,
             "Text-1": req.body.text1,
@@ -57,7 +57,7 @@ const TemplateVideo2 = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
 
     const options = {
-        template_id: "8cdebf26-22a4-4106-b134-a531c050dd33",
+        template_id: "3417109e-7afc-4d57-8a0a-cdffe1e3049c",
         modifications: {
             "Product Image": req.body.image1,
             Caption: req.body.text1,
@@ -78,7 +78,7 @@ const TemplateVideo3 = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
 
     const options = {
-        template_id: "639e9a5e-c588-486f-a012-df18cc901359",
+        template_id: "d16b719d-e065-4c63-b0ab-8d9a46625f6a",
         modifications: {
             "Background Image": req.body.image1,
             "Product Image": req.body.image2,
@@ -99,7 +99,7 @@ const TemplateVideo4 = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
 
     const options = {
-        template_id: "7931db2a-92f4-4612-886b-7647ffc38b43",
+        template_id: "9243b2de-83fe-4b5d-8da8-1bb69faca60a",
         modifications: {
             "0dac167e-ca39-414b-8d88-1b08c8489bd6": req.body.image1,
             Title: req.body.text1,
@@ -122,7 +122,7 @@ const TemplateVideo5 = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
 
     const options = {
-        template_id: "34671373-59b9-4c13-8762-e79a55335d74",
+        template_id: "4363d25f-7b38-4aa3-9798-bc8bab7100a0",
         modifications: {
             Photo: req.body.image1,
             "090694a5-d715-40a4-a92c-2285240ed5d1": req.body.text1,
@@ -208,7 +208,65 @@ const TemplateVideo8 = async (req, res) => {
         })
         .catch((error) => console.error(error));
 };
+const TemplateVideo9 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
 
+    const options = {
+        template_id: "0538935c-dce2-452c-8071-36724c0ed9cf",
+        modifications: {
+            "aa8e8152-de69-4288-8418-ffdfebcdc9a6": req.body.text1,
+            Testimonial: req.body.text2,
+            Picture: req.body.image1,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
+const TemplateVideo10 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const options = {
+        template_id: "78185a67-ba9a-4518-8dac-56b55225010a",
+        modifications: {
+            Message: req.body.text2,
+            Handle: req.body.text1,
+            Picture: req.body.image1,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
+const TemplateVideo11 = async (req, res) => {
+    const client = new Creatomate.Client(apiKey);
+
+    const options = {
+        template_id: "81a4e85e-971d-4e6e-a329-7384818a48fd",
+        modifications: {
+            "a9592213-a19c-45fa-a31d-450616da919e": req.body.text1,
+            "a0765701-790f-49e6-8436-4aafab92e064": req.body.text2,
+        },
+    };
+    console.log("Please wait while your video is being rendered...");
+
+    client
+        .render(options)
+        .then((renders) => {
+            res.status(200).send({ data: renders });
+        })
+        .catch((error) => console.error(error));
+};
 const testPostAPI = (req, res) => {
     res.status(200).send({ body: req.body });
 };
@@ -223,5 +281,8 @@ module.exports = {
     TemplateVideo6,
     TemplateVideo7,
     TemplateVideo8,
+    TemplateVideo9,
+    TemplateVideo10,
+    TemplateVideo11,
     testPostAPI,
 };

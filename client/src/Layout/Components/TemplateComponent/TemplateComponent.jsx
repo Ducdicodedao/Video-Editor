@@ -71,6 +71,24 @@ function TemplateComponent() {
                                 />
                             ))}
                     </div>
+                    <h2 className="template-category">Quote</h2>
+                    <div className="stock-videos-list">
+                        {templateList
+                            .filter((video) => video.type === 'quote')
+                            .map((video) => (
+                                <video
+                                    key={video.id}
+                                    src={video.url}
+                                    className="stock-video"
+                                    onMouseEnter={handleVideoHover}
+                                    onMouseLeave={handleVideoLeave}
+                                    muted
+                                    onClick={() => {
+                                        handleChooseTemplate(video);
+                                    }}
+                                />
+                            ))}
+                    </div>
                 </>
             )}
         </div>

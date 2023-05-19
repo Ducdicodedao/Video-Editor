@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+    mongodb:
+        image: mongo
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=zimb240
+            - MONGO_INITDB_ROOT_PASSWORD=0908218507zimb240
+            - MONGO_INITDB_DATABASE=videoEditor
+            - MONGODB_URI=mongodb+srv://zimb240:0908218507zimb240@cluster0.4emxftv.mongodb.net/videoEditor?retryWrites=true&w=majority
+        volumes:
+            - data:/data/db
+    server:
+        build: ./server
+        ports:
+            - "5000:5000"
+        volumes:
+            - logs:/app/logs
+            - ./server:/app
+            - /app/node_modules
+        depends_on:
+            - mongodb
+        environment:
+            - MONGODB_URI=mongodb+srv://zimb240:0908218507zimb240@cluster0.4emxftv.mongodb.net/videoEditor?retryWrites=true&w=majority
+            - CLOUDINARY_NAME=dccblvpyz
+            - CLOUDINARY_KEY=549699193233574
+            - CLOUDINARY_SECRET=DhHO0JD1yATZgq1SmyB60HqrKmc
+            - CREATOMATE_APIKEY=193d4f7599b949a6b5f3cc0743b9bcda3e20ae9213266a3c2e33314f0e29d77d8ed9c1a3d9d1cf768849b469759012ff3
+    client:
+        build: ./client
+        ports:
+            - "3001:3001"
+        volumes:
+            - ./client/src:/app/src
+        stdin_open: true
+        tty: true
+        depends_on:
+            - server
+
+volumes:
+    data:
+    logs:
