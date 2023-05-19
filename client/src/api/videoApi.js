@@ -29,6 +29,7 @@ export const upload = async (params) => {
         const res = await httpRequest.post('/file/upload', params, {
             'Content-Type': 'multipart/form-data',
         });
+        console.log(res);
         return res;
     } catch (error) {
         console.log(error);
