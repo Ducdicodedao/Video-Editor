@@ -20,23 +20,6 @@ function MyVideo({ route }) {
     const [audioSrc, setAudioSrc] = useState(null);
     const [isDragDrop, setIsDragDrop] = useState(false);
 
-    // const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-    const handleMouseMove = (event) => {
-        const { clientX, clientY } = event;
-        const { left, top } = event.target.getBoundingClientRect();
-
-        const x = clientX - left;
-        const y = clientY - top;
-
-        // console.log({ x, y });
-        // setMousePosition({ x, y });
-    };
-
-    const eventLogger = (e, data) => {
-        console.log(e);
-    };
-
     useEffect(() => {
         if (!isSplit) {
             setVideos(
@@ -161,13 +144,13 @@ function MyVideo({ route }) {
                                     }
                                 }
                             }}
-                            onMouseMove={handleMouseMove}
                             onLoadStart={() => {}}
                             // controls
                             autoPlay={false}
                             ref={videoRef}
                             style={{ width: '100%', height: '100%' }}
                         ></video>
+                        <div></div>
                     </div>
                     <audio ref={audioRef} src={audioSrc?.url} controls autoplay style={{ display: 'none' }}></audio>
                 </>

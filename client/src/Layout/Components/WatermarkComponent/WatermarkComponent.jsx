@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import './WatermarkComponent.css';
 
 function WatermarkComponent() {
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState('');
 
+    const videoState = useSelector((state) => state.video);
+    const videoInRedux = videoState.video;
+    console.log(videoInRedux);
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();

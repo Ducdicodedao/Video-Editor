@@ -9,7 +9,7 @@ const routes = require("./routes/index");
 const app = express();
 
 dotenv.config({
-  path: "./config.env",
+    path: "./config.env",
 });
 // const db = process.env.DATABASE.replace(
 //     "<password>",
@@ -18,21 +18,22 @@ dotenv.config({
 const db = process.env.MONGODB_URI;
 // Connect to the MongoDB cluster
 mongoose.connect(
-  "mongodb+srv://zimb240:0908218507zimb240@cluster0.4emxftv.mongodb.net/videoEditor?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
+    "mongodb+srv://zimb240:0908218507zimb240@cluster0.4emxftv.mongodb.net/videoEditor?retryWrites=true&w=majority",
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    }
 );
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("MongoDB database connection established successfully");
+    console.log("MongoDB database connection established successfully");
 });
 
 const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
+    origin: "*",
+    credentials: true, //access-control-allow-credentials:true
+    methods: "GET,POST,PUT,DELETE",
+    optionSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions)); // Use this after the variable declaration
@@ -46,5 +47,5 @@ app.use("/api", routes);
 const port = process.env.PORT || 5000;
 
 const sever = app.listen(port, () => {
-  console.log("Listening at http://localhost:" + port);
+    console.log("Listening at http://localhost:" + port);
 });
