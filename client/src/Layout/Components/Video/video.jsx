@@ -11,7 +11,7 @@ function MyVideo({ route }) {
     const audioInRedux = videoState.audio;
     const loading = useSelector((state) => state.video.loading);
     const [frame, setFrame] = useState(0);
-    const [isPlay, setIsPlay] = useState(false);
+    const [isPlay, setIsPlay] = useState(true);
     const [isSplit, setIsSplit] = useState(false);
     const [isChangeVideo, setIsChangeVideo] = useState(false);
     const [videos, setVideos] = useState([]);
@@ -109,19 +109,18 @@ function MyVideo({ route }) {
             // audioRef.current.currentTime = frame - audioSrc?.start;
         }
     }, [frame]);
+    console.log(loading);
     return (
         <Stack direction="column" sx={{ position: 'absolute', left: '8%', width: '1100px', top: '0' }}>
-            {loading ? (
-                <Skeleton variant="rectangular" width="100%">
-                    <Stack
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        sx={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }}
-                    >
-                        <CircularProgress sx={{ fontSize: 25 }} />
-                    </Stack>
-                </Skeleton>
+            {loading === true ? (
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    sx={{ width: '850px', height: '520px', position: 'absolute', left: '33%' }}
+                >
+                    <CircularProgress sx={{ fontSize: 25 }} />
+                </Stack>
             ) : (
                 <>
                     <Stack sx={{ width: '850px', height: '520px', position: 'absolute', left: '33%' }}>
@@ -152,7 +151,7 @@ function MyVideo({ route }) {
                             }}
                             onLoadStart={() => {}}
                             // controls
-                            autoPlay={false}
+                            autoPlay={true}
                             ref={videoRef}
                             style={{ width: '100%', height: '100%' }}
                         ></video>
