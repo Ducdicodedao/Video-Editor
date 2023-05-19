@@ -7,9 +7,9 @@ import { useDispatch } from 'react-redux';
 import { selectVideoStock } from '~/app/editorSlice';
 
 function TemplateForm({ template, setTemplate }) {
-    const [videos, setVideos] = useState(Array.from({ length: template.options.video }) || []);
-    const [images, setImages] = useState(Array.from({ length: template.options.image }) || []);
-    const [texts, setTexts] = useState(Array.from({ length: template.options.text }) || []);
+    const [videos, setVideos] = useState(Array.from({ length: template.option.video }) || []);
+    const [images, setImages] = useState(Array.from({ length: template.option.image }) || []);
+    const [texts, setTexts] = useState(Array.from({ length: template.option.text }) || []);
 
     const dispatch = useDispatch();
     const handleVideoUpload = async (event, index) => {
@@ -51,7 +51,7 @@ function TemplateForm({ template, setTemplate }) {
             };
         });
 
-        const res = await httpRequest.post(template.options.api, body);
+        const res = await httpRequest.post(template.option.api, body);
         console.log(res);
 
         dispatch(

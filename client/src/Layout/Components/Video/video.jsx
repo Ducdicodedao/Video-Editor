@@ -5,7 +5,16 @@ import Draggable from 'react-draggable';
 import Skeleton from '@mui/material/Skeleton';
 
 import TimeLine from '../Timeline/Timeline';
-
+import {
+    FacebookShareButton,
+    TwitterShareButton,
+    WhatsappShareButton,
+    EmailShareButton,
+    FacebookIcon,
+    TwitterIcon,
+    WhatsappIcon,
+    EmailIcon,
+} from 'react-share';
 function MyVideo({ route }) {
     const videoState = useSelector((state) => state.video);
 
@@ -33,7 +42,15 @@ function MyVideo({ route }) {
     };
 
     const eventLogger = (e, data) => {
-        console.log(e);
+        // console.log(e);
+        const { clientX, clientY } = e;
+        const { left, top } = e.target.getBoundingClientRect();
+
+        const x = clientX - left;
+        const y = clientY - top;
+
+        console.log({ x, y });
+        setMousePosition({ x, y });
     };
 
     useEffect(() => {
@@ -140,7 +157,9 @@ function MyVideo({ route }) {
                             ref={videoRef}
                             style={{ width: '100%', height: '100%' }}
                         ></video>
+                        <div></div>
                     </div>
+
                     <audio
                         ref={audioRef}
                         src="https://firebasestorage.googleapis.com/v0/b/musicplayer-b04ab.appspot.com/o/discovery_song%2F1679834410627.mp3?alt=media&token=beef64b2-2077-4616-86f7-f888d5cddac4"
@@ -148,8 +167,8 @@ function MyVideo({ route }) {
                         autoplay
                         style={{ display: 'none' }}
                     ></audio>
-                    <Draggable defaultPosition={{ x: 867, y: 244 }} onStop={eventLogger}>
-                        <h6 style={{ cursor: 'grab' }}>hello</h6>
+                    <Draggable bounds={videoRef.current?.getBoundingClientRect()} onStop={eventLogger}>
+                        <h6 style={{ cursor: 'grab' }}>HELLO WORK</h6>
                     </Draggable>
                 </>
             )}

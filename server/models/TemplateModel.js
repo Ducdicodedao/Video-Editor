@@ -10,7 +10,7 @@ const templateSchema = new mongoose.Schema({
     name: { type: String },
     url: { type: String },
     type: String,
-    options: optionSchema,
+    option: optionSchema,
 });
 
 const Template = mongoose.model("Template", templateSchema);
