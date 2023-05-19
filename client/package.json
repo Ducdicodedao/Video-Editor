@@ -26,6 +26,7 @@
         "react-scripts": "5.0.1",
         "react-share": "^4.4.1",
         "react-visjs-timeline": "^1.6.0",
+        "redux-persist": "^6.0.0",
         "video.js": "^8.0.4",
         "web-vitals": "^2.1.4"
     },

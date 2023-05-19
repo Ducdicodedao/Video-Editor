@@ -56,7 +56,15 @@ export const uploadImage = async (params) => {
 };
 export const getVideoStock = async () => {
     try {
-        const res = await httpRequest.post('/file/getAll');
+        const res = await httpRequest.post('/file/getAllVideo');
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const getAudioStock = async () => {
+    try {
+        const res = await httpRequest.post('/file/getAllAudio');
         return res;
     } catch (error) {
         console.log(error);
@@ -75,6 +83,37 @@ export const splitVideo = async (params) => {
             trimDuration: params.duration,
         });
         return { video1: video1, video2: video2, originalName: params.name };
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const renderVideo = async (params) => {
+    try {
+        console.log(params);
+        const res = await httpRequest.post('/video/render', params);
+
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const storeVideo = async (params) => {
+    try {
+        console.log(params);
+        const res = await httpRequest.post('/storage/storeVideo', params);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+export const getVideoStorage = async (params) => {
+    try {
+        console.log(params);
+        const res = await httpRequest.post('/storage/getVideoStorage', { id: params.id });
+        console.log(res);
+        return res;
     } catch (error) {
         console.log(error);
     }

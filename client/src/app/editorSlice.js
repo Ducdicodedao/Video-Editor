@@ -12,6 +12,14 @@ export const concatenateVideo = createAsyncThunk('video/concat', async (params, 
     const res = await videoApi.concatVideo(params);
     return res;
 });
+export const renderVideo = createAsyncThunk('video/render', async (params, thunkAPI) => {
+    const res = await videoApi.renderVideo(params);
+    return res;
+});
+export const storeVideo = createAsyncThunk('video/store', async (params, thunkAPI) => {
+    const res = await videoApi.storeVideo(params);
+    return res;
+});
 // export const splitVideo = createAsyncThunk('video/split', async (params, thunkAPI) => {
 //     const res = await videoApi.splitVideo(params);
 //     return res;
@@ -25,8 +33,12 @@ export const videoSlice = createSlice({
         error: '',
         isError: false,
         totalDuration: 0,
+        renderVideo: null,
     },
     reducers: {
+        setRenderVideo: (state, action) => {
+            state.renderVideo = action.payload;
+        },
         resetStoreVideo: (state, action) => {
             state.video = [];
             state.loading = false;
@@ -43,6 +55,13 @@ export const videoSlice = createSlice({
             if (state.video.length === 1) {
             }
             state.totalDuration += parseFloat(action.payload.duration);
+        },
+        selectAudioStock: (state, action) => {
+            state.audio.push(action.payload);
+            state.totalDuration += parseFloat(action.payload.duration);
+        },
+        updateAudio: (state, action) => {
+            state.audio = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -72,6 +91,32 @@ export const videoSlice = createSlice({
             state.currentVideo = action.payload.data[0];
         });
 
+        builder.addCase(renderVideo.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(renderVideo.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload.msg;
+            state.isError = true;
+        });
+        builder.addCase(renderVideo.fulfilled, (state, action) => {
+            state.loading = false;
+            state.video = [];
+            state.video.push(action.payload);
+            state.totalDuration = parseFloat(action.payload.duration);
+        });
+
+        builder.addCase(storeVideo.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(storeVideo.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload.msg;
+            state.isError = true;
+        });
+        builder.addCase(storeVideo.fulfilled, (state, action) => {
+            state.loading = false;
+        });
         // builder.addCase(splitVideo.pending, (state, action) => {
         //     state.loading = true;
         // });
@@ -111,5 +156,13 @@ export const videoSlice = createSlice({
         });
     },
 });
-export const { resetStoreVideo, setDuration, splitVideo, selectVideoStock } = videoSlice.actions;
+export const {
+    resetStoreVideo,
+    setDuration,
+    splitVideo,
+    selectVideoStock,
+    selectAudioStock,
+    updateAudio,
+    setRenderVideo,
+} = videoSlice.actions;
 export default videoSlice.reducer;

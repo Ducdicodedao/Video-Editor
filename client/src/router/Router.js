@@ -12,7 +12,7 @@ import Feedback from '~/pages/Feedback';
 import Media from '~/pages/Media';
 import VideosUpload from '~/Layout/Components/videosUpload/videosUpload';
 import MediaComponent from '~/Layout/Components/MediaComponent/MediaComponent';
-import SubtitleComponent from '~/Layout/Components/SubtitleComponent/SubtitleComponent';
+import AudioComponent from '~/Layout/Components/AudioComponent/AudioComponent';
 import WatermarkComponent from '~/Layout/Components/WatermarkComponent/WatermarkComponent';
 import TemplateComponent from '~/Layout/Components/TemplateComponent/TemplateComponent';
 const publicRoutes = [
@@ -21,12 +21,12 @@ const publicRoutes = [
     { path: configRouter.media, component: MediaComponent },
     { path: configRouter.storage, component: Storage },
     { path: configRouter.feedback, component: Feedback },
-    { path: configRouter.login, component: Login },
-    { path: configRouter.register, component: Register },
+    { path: configRouter.login, component: Login, Layout: HeaderOnly },
+    { path: configRouter.register, component: Register, Layout: HeaderOnly },
     { path: configRouter.concatenate, component: Concatenate },
     { path: configRouter.cut, component: Cut },
     { path: configRouter.profile, component: Login },
-    { path: configRouter.subtitle, component: SubtitleComponent },
+    { path: configRouter.audio, component: AudioComponent },
     { path: configRouter.watermark, component: WatermarkComponent },
     { path: configRouter.template, component: TemplateComponent },
 ];

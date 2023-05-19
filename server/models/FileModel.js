@@ -5,6 +5,7 @@ const fileSchema = new mongoose.Schema({
     url: { type: String },
     filename: { type: String },
     duration: { type: String },
+    type: { type: String },
 });
 
 const File = mongoose.model("File", fileSchema);

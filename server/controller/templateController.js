@@ -1,5 +1,13 @@
 const Template = require("../models/TemplateModel.js");
-
+const Creatomate = require("creatomate");
+const apiKey = process.env.CREATOMATE_APIKEY;
+if (!apiKey) {
+    // Your API key can be found under project settings: https://creatomate.com/docs/api/rest-api/authentication
+    console.error(
+        "\n\n⚠️  To run this example, please specify your API key as follows: node index.js YOUR_API_KEY"
+    );
+    process.exit(1);
+}
 const addTemplate = async (req, res) => {
     try {
         const template = new Template(req.body);

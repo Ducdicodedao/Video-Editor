@@ -3,6 +3,7 @@ const express = require("express");
 
 const router = express.Router();
 
+router.post("/render", videoController.renderVideo);
 router.post("/trimVideo", videoController.TrimVideo);
 router.post("/concatenate", videoController.concatenate);
 router.post("/addWatermark", videoController.AddWatermark);

@@ -9,6 +9,18 @@ export const signIn = async (params) => {
         });
         return res;
     } catch (error) {
-        return Promise.reject(error);
+        return error.response.data;
+    }
+};
+export const signUp = async (params) => {
+    try {
+        const res = await httpRequest.post('/auth/signup', {
+            email: params.email,
+            password: params.password,
+            name: params.name,
+        });
+        return res;
+    } catch (error) {
+        return error.response.data;
     }
 };

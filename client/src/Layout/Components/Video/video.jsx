@@ -3,55 +3,22 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Draggable from 'react-draggable';
 import Skeleton from '@mui/material/Skeleton';
-
 import TimeLine from '../Timeline/Timeline';
-import {
-    FacebookShareButton,
-    TwitterShareButton,
-    WhatsappShareButton,
-    EmailShareButton,
-    FacebookIcon,
-    TwitterIcon,
-    WhatsappIcon,
-    EmailIcon,
-} from 'react-share';
 function MyVideo({ route }) {
     const videoState = useSelector((state) => state.video);
 
     const videoInRedux = videoState.video;
+    const audioInRedux = videoState.audio;
+    const renderData = videoState.renderVideo;
     const loading = useSelector((state) => state.video.loading);
     const [frame, setFrame] = useState(0);
-    const [isPlay, setIsPlay] = useState(true);
+    const [isPlay, setIsPlay] = useState(false);
     const [isSplit, setIsSplit] = useState(false);
     const [isChangeVideo, setIsChangeVideo] = useState(false);
     const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
+    const [audioSrc, setAudioSrc] = useState(null);
     const [isDragDrop, setIsDragDrop] = useState(false);
-
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-    const handleMouseMove = (event) => {
-        const { clientX, clientY } = event;
-        const { left, top } = event.target.getBoundingClientRect();
-
-        const x = clientX - left;
-        const y = clientY - top;
-
-        //console.log({ x, y });
-        setMousePosition({ x, y });
-    };
-
-    const eventLogger = (e, data) => {
-        // console.log(e);
-        const { clientX, clientY } = e;
-        const { left, top } = e.target.getBoundingClientRect();
-
-        const x = clientX - left;
-        const y = clientY - top;
-
-        console.log({ x, y });
-        setMousePosition({ x, y });
-    };
 
     useEffect(() => {
         if (!isSplit) {
@@ -99,6 +66,7 @@ function MyVideo({ route }) {
                 break;
             }
         }
+
         if (check === 0) {
             setFrame(0);
         }
@@ -106,7 +74,22 @@ function MyVideo({ route }) {
         // setIsChangeVideo(true);
     }, [videos, frame]);
     useEffect(() => {
+        let count = 0;
+        for (var i of audioInRedux) {
+            if (frame >= parseFloat(i?.start) && frame < parseFloat(i?.start) + parseFloat(i?.duration)) {
+                if (i !== audioSrc) {
+                    setAudioSrc(i);
+                }
+                count = 1;
+                break;
+            }
+        }
+        if (count === 0) setAudioSrc(null);
+    }, [audioInRedux, frame]);
+    useEffect(() => {
         if (isPlay === false) {
+            audioRef.current.pause();
+
             if (videoSrc.start !== undefined && videoSrc.frameSkip !== undefined) {
                 videoRef.current.currentTime = frame - videoSrc?.start + videoSrc.frameSkip;
             } else if (videoSrc.start !== undefined) {
@@ -114,6 +97,17 @@ function MyVideo({ route }) {
             } else {
                 videoRef.current.currentTime = frame;
             }
+        }
+        if (audioSrc !== null) {
+            const count = audioInRedux.filter((data) => data.name === audioSrc?.name);
+            if (count.length === 0) {
+                setAudioSrc(null);
+            }
+            // if()
+            if (isPlay) {
+                audioRef.current.play();
+            }
+            // audioRef.current.currentTime = frame - audioSrc?.start;
         }
     }, [frame]);
     return (
@@ -150,26 +144,15 @@ function MyVideo({ route }) {
                                     }
                                 }
                             }}
-                            onMouseMove={handleMouseMove}
                             onLoadStart={() => {}}
                             // controls
-                            autoPlay={true}
+                            autoPlay={false}
                             ref={videoRef}
                             style={{ width: '100%', height: '100%' }}
                         ></video>
                         <div></div>
                     </div>
-
-                    <audio
-                        ref={audioRef}
-                        src="https://firebasestorage.googleapis.com/v0/b/musicplayer-b04ab.appspot.com/o/discovery_song%2F1679834410627.mp3?alt=media&token=beef64b2-2077-4616-86f7-f888d5cddac4"
-                        controls
-                        autoplay
-                        style={{ display: 'none' }}
-                    ></audio>
-                    <Draggable bounds={videoRef.current?.getBoundingClientRect()} onStop={eventLogger}>
-                        <h6 style={{ cursor: 'grab' }}>HELLO WORK</h6>
-                    </Draggable>
+                    <audio ref={audioRef} src={audioSrc?.url} controls autoplay style={{ display: 'none' }}></audio>
                 </>
             )}
             <TimeLine

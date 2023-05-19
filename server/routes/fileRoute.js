@@ -6,21 +6,22 @@ const videoFileUploader = require("../middleware/videocloudinary");
 const imageFileUploader = require("../middleware/imagecloudinary");
 const verifyToken = require("../middleware/verifyToken");
 router.post(
-    "/upload",
-    videoFileUploader.array("files"),
-    FileController.uploadFile
+  "/upload",
+  videoFileUploader.array("files"),
+  FileController.uploadFile
 );
 router.post(
-    "/uploadImage",
-    imageFileUploader.array("files"),
-    FileController.uploadFile
+  "/uploadImage",
+  imageFileUploader.array("files"),
+  FileController.uploadFile
 );
 router.post(
-    "/uploadVideoStock",
-    videoFileUploader.array("files"),
-    FileController.uploadVideoStock
+  "/uploadFileStock",
+  videoFileUploader.array("files"),
+  FileController.uploadFileStock
 );
 
 router.get("/getAllFiles", FileController.getAllFiles);
-router.post("/getAll", FileController.getAll);
+router.post("/getAllVideo", FileController.getAllVideo);
+router.post("/getAllAudio", FileController.getAllAudio);
 module.exports = router;

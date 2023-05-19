@@ -1,5 +1,5 @@
 const Creatomate = require("creatomate");
-
+const { cloneDeep } = require("lodash");
 const apiKey = process.env.CREATOMATE_APIKEY;
 if (!apiKey) {
     // Your API key can be found under project settings: https://creatomate.com/docs/api/rest-api/authentication
@@ -8,6 +8,96 @@ if (!apiKey) {
     );
     process.exit(1);
 }
+// 0 44 10 29 0
+const renderVideo = async (req, res) => {
+    try {
+        const client = new Creatomate.Client(apiKey);
+        const videos = req.body.videos;
+        const audio = req.body.audio;
+        let videoSrc = null;
+        let arr = [];
+        let isZero = false;
+        const duration = Math.max(...videos.map((o) => parseFloat(o.end)));
+        for (let frame = 0; frame < duration; frame++) {
+            for (var i = 0; i < videos.length; i++) {
+                if (
+                    frame >= videos[i]?.start &&
+                    frame < parseFloat(videos[i]?.end)
+                ) {
+                    if (videos[i] !== videoSrc) {
+                        if (i === 0 && arr.length > 0) {
+                            isZero = true;
+                            const temp = {
+                                start: arr[arr.length - 1].start,
+                                end: arr[arr.length - 1].end,
+                                content: arr[arr.length - 1].content,
+                                url: arr[arr.length - 1].url,
+                            };
+                            arr.length > 0 ? (temp.end = videos[i].start) : "";
+                            arr.pop();
+                            arr.push(temp);
+                            videoSrc = videos[i];
+                        } else {
+                            if (isZero) {
+                                let temp = cloneDeep(videos[i]);
+                                temp.start = arr[arr.length - 1].end;
+                                videoSrc = temp;
+                                isZero = false;
+                            } else {
+                                videoSrc = videos[i];
+                            }
+                        }
+                        arr.push(videoSrc);
+                    }
+                    break;
+                }
+            }
+        }
+        if (arr.length > 1) arr.pop();
+        const videoData = arr.map((data) => {
+            const s = new Creatomate.Video({
+                track: 1,
+                source: data.url,
+                trimStart: data.frameSkip !== undefined ? data.frameSkip : 0,
+                trimDuration: data.end - data.start,
+            });
+            return s;
+        });
+        for (var i = 0; i < audio.length; i++) {
+            const temp = new Creatomate.Audio({
+                time: audio[i]?.start,
+                source: audio[i].url,
+            });
+            videoData.push(temp);
+        }
+
+        const source = new Creatomate.Source({
+            outputFormat: "mp4",
+            width: 1280,
+            height: 720,
+            elements: videoData,
+        });
+        // for (let index = 0; index < videoData.length; index++) {
+        //   temp.push(videoData[index].video);
+        // }
+        client
+            .render({ source })
+            .then((renders) => {
+                res.status(200).send({
+                    name: "video Render",
+                    duration: renders[0].duration,
+                    url: renders[0].url,
+                });
+                console.log(renders);
+            })
+            .catch((error) => {
+                // res.status(401).send({ msg: error })
+                console.log(error);
+            });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 
 const TrimVideo = async (req, res) => {
     const client = new Creatomate.Client(apiKey);
@@ -21,6 +111,7 @@ const TrimVideo = async (req, res) => {
             }),
         ],
     });
+
     console.log("Please wait while your video is being rendered...");
 
     client
@@ -40,27 +131,38 @@ const concatenate = async (req, res) => {
         elements: [
             new Creatomate.Video({
                 track: 1,
-                source: req.body.source1,
+                source: "https://res.cloudinary.com/dccblvpyz/video/upload/v1683904093/videos/xtllmppkfkiajh0cs5mq.mp4",
+                trimStart: 0,
+                trimDuration: 10,
             }),
 
             new Creatomate.Video({
                 track: 1,
-                source: req.body.source2,
-
+                source: "https://res.cloudinary.com/dccblvpyz/video/upload/v1683904018/videos/ew2hia3h0dqqfj37wgl0.mp4",
+                trimStart: 0,
+                trimDuration: 27.866666666666667 - 10,
+                // Add a transition like this:
+                // transition: new Creatomate.Fade({ duration: 1 }),
+            }),
+            new Creatomate.Video({
+                track: 1,
+                source: "https://res.cloudinary.com/dccblvpyz/video/upload/v1683904093/videos/xtllmppkfkiajh0cs5mq.mp4",
+                trimStart: 14.27,
+                trimDuration: 54.86666666666667 - 27.866666666666667,
                 // Add a transition like this:
                 // transition: new Creatomate.Fade({ duration: 1 }),
             }),
         ],
     });
-
+    console.log(typeof source.properties.elements[0]);
     console.log("Please wait while your video is being rendered...");
 
-    client
-        .render({ source })
-        .then((renders) => {
-            res.status(200).send({ data: renders });
-        })
-        .catch((error) => res.status(401).send({ msg: error }));
+    // client
+    //   .render({ source })
+    //   .then((renders) => {
+    //     res.status(200).send({ data: renders });
+    //   })
+    //   .catch((error) => res.status(401).send({ msg: error }));
 };
 
 const AddWatermark = async (req, res) => {
@@ -392,4 +494,5 @@ module.exports = {
     Create2By2VideoWall,
     SplitVideo,
     concatenate,
+    renderVideo,
 };

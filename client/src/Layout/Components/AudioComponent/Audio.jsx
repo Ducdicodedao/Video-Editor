@@ -1,4 +1,4 @@
-import './SubtitleComponent.css';
+import './AudioComponent.css';
 function Subtitle({ s, index, handleRemoveSubtitle }) {
     return (
         <div className="subtitle-card">

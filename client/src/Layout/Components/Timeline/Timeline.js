@@ -1,8 +1,8 @@
-import { Button } from '@mui/material';
+import { Button, Modal } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo, splitVideo, uploadFile } from '~/app/editorSlice';
+import { concatenateVideo, renderVideo, setRenderVideo, splitVideo, uploadFile } from '~/app/editorSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
@@ -10,6 +10,8 @@ import ContentCutIcon from '@mui/icons-material/ContentCut';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import DownloadIcon from '@mui/icons-material/Download';
+import RenderVideo from '../RenderVideo/RenderVideo';
 function TimeLine({
     videoRef,
     setFrame,
@@ -25,13 +27,21 @@ function TimeLine({
     isPlay,
 }) {
     const timeValue = 60000;
-
-    const currentVideo = videoState.currentVideo;
+    const renderData = useSelector((state) => state.video.renderVideo);
     const dispatch = useDispatch();
-    const videoss = videos;
     const [itemSize, setItemSize] = useState(85);
     const [itemSelector, setItemSelector] = useState(null);
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        dispatch(setRenderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+        setOpen(true);
+    };
 
+    const handleClose = () => {
+        setOpen(false);
+        setVideos(renderData.videos);
+        dispatch(setRenderVideo(null));
+    };
     const items = videoState.video.map((data) => {
         const video = videos.filter((e) => e.id === data.name);
         return {
@@ -80,6 +90,9 @@ function TimeLine({
             dispatch(splitVideo({ name: video[0].name + ' source2', url: video[0].url, duration: video[0].duration }));
         }
     };
+    const handleRender = () => {
+        dispatch(renderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+    };
     var options = {
         width: '1200px',
         height: itemSize + 'px',
@@ -126,6 +139,11 @@ function TimeLine({
             if (itemSize < 120) setItemSize((videoState.video.length - 1) * 20 + itemSize);
         }
     }, [videoState]);
+    useEffect(() => {
+        if (renderData !== null) {
+            setOpen(true);
+        }
+    }, []);
     return (
         <div style={{ position: 'absolute', top: '535px' }}>
             <Stack direction="row" justifyContent="space-between" sx={{}}>
@@ -138,6 +156,18 @@ function TimeLine({
                         Add Media
                         <input type="file" hidden onChange={handleChange} />
                     </Button>
+                    <Button sx={{ fontSize: 8, color: 'black' }} onClick={handleOpen}>
+                        <DownloadIcon />
+                        Download Section
+                    </Button>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <RenderVideo handleClose={handleClose}></RenderVideo>
+                    </Modal>
                 </Stack>
                 <Stack alignItems="center" direction="row">
                     <Button

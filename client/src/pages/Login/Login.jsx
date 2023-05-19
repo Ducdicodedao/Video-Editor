@@ -14,7 +14,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Auth } from '~/contexts/authContext';
 import httpRequest from '../../util/HttpRequest.js';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '~/app/authSlice.js';
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -28,6 +28,7 @@ const ColorButton = styled(Button)(({ theme }) => ({
     },
 }));
 function Login() {
+    const { isError, error, user } = useSelector((state) => state.auth);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -42,27 +43,32 @@ function Login() {
     const handleClose = () => {
         setOpen(false);
     };
+    if (user !== null) {
+        navigate('/');
+    }
     const dispatch = useDispatch();
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
     const handleSubmit = async () => {
         try {
-            console.log(email, password);
             // const { data } = await httpRequest.post('/api/auth/signin', {
             //     email,
             //     password,
             // });
             dispatch(signIn({ email, password }));
+            if (isError) {
+                setMessage(error);
+                setOpen(true);
+            }
             // localStorage.setItem('userInfo', JSON.stringify(data));
-            navigate('/');
         } catch (err) {
             setMessage('Invalid Email or Password');
             setOpen(true);
         }
     };
     return (
-        <Grid container>
+        <Grid container sx={{ width: '100wh', height: '100vh' }}>
             <Grid item xs={3} sx={{ textAlign: 'center', marginTop: '200px' }}>
                 <h2>Welcome To Video Editor</h2>
                 <div style={{ fontSize: 13 }}>
@@ -73,9 +79,9 @@ function Login() {
             </Grid>
             <Grid item xs={5}>
                 <img
-                    src="https://s3-alpha-sig.figma.com/img/5132/3b6b/400eadafbae9c466368f9e302fc36898?Expires=1681689600&Signature=kWm4xR9VdTOxKudB8hCwXlbz1x~C9D7Sa6lh19Aw8H2NxgOb6HYAh50SsDPbzrnXTG7JCwYUQKoKJV8eXIX2chpzsVNuakyPnPbYLuZxo2uvZ~yJjfEf5PWhEZ5rR4ul5~uLU8O5A63NcqgoTNQjcligXqBcIs3lnBRZB-6eHAZHYnEo42NTT5SdtAOaJ-Ftl4A-hqd4r9jXz6skorfyG3F8hJbNhiuSspsarkpkpyIIKOVlIHJVD3iMbouMu1gZFTiMm8j-KFuI~dCBJhqKkmTmZNmcUu59fnRHraZLBqqIp7lotw3kU1pbeKvITYaGMUIY5qGDrD88uijpAmWhPA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+                    src="https://res.cloudinary.com/dccblvpyz/image/upload/v1684339694/clone-discord/wyrmrrbm2mo7ppk7qaew.jpg"
                     alt="img"
-                    style={{ marginTop: '100px', width: '100%', height: '100%', objectFit: 'center' }}
+                    style={{ marginTop: '0px', width: '100%', height: '100%', objectFit: 'center' }}
                 ></img>
             </Grid>
             <Grid item xs={4} sx={{ display: 'flex', justifyContent: 'center' }}>

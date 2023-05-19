@@ -7,6 +7,8 @@ import { Alert, Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import httpRequest from '../../util/HttpRequest.js';
 import { Auth } from '~/contexts/authContext';
+import { useDispatch } from 'react-redux';
+import { signUp } from '~/api/authApi';
 
 const cx = classNames.bind(styles);
 function Register() {
@@ -20,8 +22,7 @@ function Register() {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
-    const { state, dispatch } = useContext(Auth);
-    const { userInfo } = state;
+    const dispatch = useDispatch();
 
     const handleSubmit = async () => {
         if (Password !== RePassword) {
@@ -35,17 +36,25 @@ function Register() {
             return;
         }
         try {
-            const { data } = await httpRequest.post('/api/auth/signup', {
-                name: Name,
-                email: Email,
-                password: Password,
-            });
-            dispatch({
-                type: 'USER_SIGNIN',
-                payload: data,
-            });
-            localStorage.setItem('userInfo', JSON.stringify(data));
-            navigate('/login');
+            const data = await signUp({ name: Name, password: Password, email: Email });
+            console.log(data);
+            if (data.message) {
+                setMessage(data.message);
+                setOpen(true);
+                return;
+            } else {
+                navigate('/login');
+            }
+            // const { data } = await httpRequest.post('/api/auth/signup', {
+            //     name: Name,
+            //     email: Email,
+            //     password: Password,
+            // });
+            // dispatch({
+            //     type: 'USER_SIGNIN',
+            //     payload: data,
+            // });
+            // localStorage.setItem('userInfo', JSON.stringify(data));
         } catch (err) {
             setMessage('Email is already Exist');
             setOpen(true);
