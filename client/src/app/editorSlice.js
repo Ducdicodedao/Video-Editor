@@ -8,6 +8,10 @@ export const uploadFile = createAsyncThunk('video/upload', async (params, thunkA
     const res = await videoApi.upload(params);
     return res;
 });
+export const uploadAudio = createAsyncThunk('video/uploadAudio', async (params, thunkAPI) => {
+    const res = await videoApi.upload(params);
+    return res;
+});
 export const concatenateVideo = createAsyncThunk('video/concat', async (params, thunkAPI) => {
     const res = await videoApi.concatVideo(params);
     return res;
@@ -152,6 +156,19 @@ export const videoSlice = createSlice({
         builder.addCase(uploadFile.fulfilled, (state, action) => {
             state.loading = false;
             state.video.push(action.payload);
+            state.totalDuration += parseFloat(action.payload.duration);
+        });
+        builder.addCase(uploadAudio.pending, (state, action) => {
+            state.loading = true;
+        });
+        builder.addCase(uploadAudio.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload.msg;
+            state.isError = true;
+        });
+        builder.addCase(uploadAudio.fulfilled, (state, action) => {
+            state.loading = false;
+            state.audio.push({ ...action.payload, start: 0 });
             state.totalDuration += parseFloat(action.payload.duration);
         });
     },

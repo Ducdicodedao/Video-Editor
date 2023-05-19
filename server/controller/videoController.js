@@ -53,7 +53,10 @@ const renderVideo = async (req, res) => {
                 }
             }
         }
-        if (arr.length > 1) arr.pop();
+        console.log(arr);
+        console.log("--------------------------------");
+        if (arr[arr.length - 1].start === 0 && arr.length > 1) arr.pop();
+        console.log(arr);
         const videoData = arr.map((data) => {
             const s = new Creatomate.Video({
                 track: 1,

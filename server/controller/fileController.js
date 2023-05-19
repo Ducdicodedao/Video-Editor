@@ -21,7 +21,6 @@ const uploadFile = async (req, res) => {
         res.status(401).send({ msg: error.message });
     }
 };
-
 const uploadFileStock = async (req, res) => {
     try {
         const newFileUpload = {
