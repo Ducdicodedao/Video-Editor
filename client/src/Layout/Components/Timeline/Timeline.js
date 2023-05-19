@@ -2,7 +2,15 @@ import { Button, Modal } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Timeline from 'react-visjs-timeline';
-import { concatenateVideo, renderVideo, setRenderVideo, splitVideo, uploadAudio, uploadFile } from '~/app/editorSlice';
+import {
+    concatenateVideo,
+    removeVideo,
+    renderVideo,
+    setRenderVideo,
+    splitVideo,
+    uploadAudio,
+    uploadFile,
+} from '~/app/editorSlice';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Stack } from '@mui/system';
@@ -125,7 +133,6 @@ function TimeLine({
             },
         },
         onMove: function (item, callback) {
-            console.log(item);
             const temp = [];
             for (let index = 0; index < videos.length; index++) {
                 if (videos[index].id === item.id) {
@@ -136,6 +143,21 @@ function TimeLine({
             }
             setVideos(temp);
 
+            if (item.content != null) {
+                callback(item); // send back adjusted item
+            } else {
+                callback(null); // cancel updating the item
+            }
+        },
+        onRemove: function (item, callback) {
+            const temp = [];
+            for (let index = 0; index < videoState.video.length; index++) {
+                if (item.id !== videoState.video[index].name) {
+                    temp.push(videoState.video[index]);
+                }
+            }
+            console.log(temp);
+            dispatch(removeVideo(temp));
             if (item.content != null) {
                 callback(item); // send back adjusted item
             } else {
