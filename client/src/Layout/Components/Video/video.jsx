@@ -1,4 +1,4 @@
-import { Button, Stack } from '@mui/material';
+import { Button, CircularProgress, Stack } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Draggable from 'react-draggable';
@@ -9,7 +9,6 @@ function MyVideo({ route }) {
 
     const videoInRedux = videoState.video;
     const audioInRedux = videoState.audio;
-    const renderData = videoState.renderVideo;
     const loading = useSelector((state) => state.video.loading);
     const [frame, setFrame] = useState(0);
     const [isPlay, setIsPlay] = useState(false);
@@ -114,11 +113,18 @@ function MyVideo({ route }) {
         <Stack direction="column" sx={{ position: 'absolute', left: '8%', width: '1100px', top: '0' }}>
             {loading ? (
                 <Skeleton variant="rectangular" width="100%">
-                    <div style={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }} />
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        sx={{ width: '750px', height: '450px', position: 'absolute', left: '35.5%' }}
+                    >
+                        <CircularProgress sx={{ fontSize: 25 }} />
+                    </Stack>
                 </Skeleton>
             ) : (
                 <>
-                    <div style={{ width: '850px', height: '520px', position: 'absolute', left: '33%' }}>
+                    <Stack sx={{ width: '850px', height: '520px', position: 'absolute', left: '33%' }}>
                         <video
                             src={videoSrc?.url}
                             onTimeUpdate={(e) => {
@@ -150,8 +156,8 @@ function MyVideo({ route }) {
                             ref={videoRef}
                             style={{ width: '100%', height: '100%' }}
                         ></video>
-                        <div></div>
-                    </div>
+                        <Stack></Stack>
+                    </Stack>
                     <audio ref={audioRef} src={audioSrc?.url} controls autoplay style={{ display: 'none' }}></audio>
                 </>
             )}

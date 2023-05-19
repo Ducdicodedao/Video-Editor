@@ -60,6 +60,9 @@ export const videoSlice = createSlice({
             }
             state.totalDuration += parseFloat(action.payload.duration);
         },
+        removeVideo: (state, action) => {
+            state.video = action.payload;
+        },
         selectAudioStock: (state, action) => {
             state.audio.push(action.payload);
             state.totalDuration += parseFloat(action.payload.duration);
@@ -181,5 +184,6 @@ export const {
     selectAudioStock,
     updateAudio,
     setRenderVideo,
+    removeVideo,
 } = videoSlice.actions;
 export default videoSlice.reducer;
