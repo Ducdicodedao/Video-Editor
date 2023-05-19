@@ -15,15 +15,13 @@ dotenv.config({
 //     "<password>",
 //     process.env.DATABASE_PASSWORD
 // );
+
 const db = process.env.MONGODB_URI;
 // Connect to the MongoDB cluster
-mongoose.connect(
-    "mongodb+srv://zimb240:0908218507zimb240@cluster0.4emxftv.mongodb.net/videoEditor?retryWrites=true&w=majority",
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    }
-);
+mongoose.connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("MongoDB database connection established successfully");
