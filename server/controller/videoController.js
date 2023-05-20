@@ -13,6 +13,9 @@ const renderVideo = async (req, res) => {
   try {
     const client = new Creatomate.Client(apiKey);
     const videos = req.body.videos;
+    console.log(videos);
+    console.log("--------------------------------");
+
     const audio = req.body.audio;
     let videoSrc = null;
     let arr = [];
@@ -39,6 +42,7 @@ const renderVideo = async (req, res) => {
               if (isZero) {
                 let temp = cloneDeep(videos[i]);
                 temp.start = arr[arr.length - 1].end;
+                temp.frameSkip = temp.start;
                 videoSrc = temp;
                 isZero = false;
               } else {
@@ -54,6 +58,7 @@ const renderVideo = async (req, res) => {
 
     if (arr[arr.length - 1].start === 0 && arr.length > 1) arr.pop();
     console.log(arr);
+    console.log("--------------------------------");
     const videoData = arr.map((data) => {
       const s = new Creatomate.Video({
         track: 1,
@@ -64,6 +69,8 @@ const renderVideo = async (req, res) => {
       return s;
     });
     console.log(videoData);
+    console.log("--------------------------------");
+
     for (var i = 0; i < audio.length; i++) {
       const temp = new Creatomate.Audio({
         time: audio[i]?.start,
