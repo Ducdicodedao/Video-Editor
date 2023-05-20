@@ -12,22 +12,27 @@
 1. Nguyễn Minh Đức - MSSV: 2011461
 2. Vũ Thanh Sang - MSSV: 20110555
 
-## Cách run project
+## Cách deploy project
 
--   **Bước 1:** Cài đặt git
--   **Bước 2:** Cài đặt node.
--   **Bước 3:** Clone repository theo đường dẫn: https://github.com/ducdevday/Video-Editor.git
--   **Bước 4:** Giải nén folder
--   **Bước 5:** Tại thư mục client, chạy lệnh sau để start frontend:
+-   **Bước 1:** Cài đặt git.
+-   **Bước 2:** Cài đặt docker.
+-   **Bước 3:** Clone repo: https://github.com/ducdevday/Video-Editor.git
 
 ```
-    npm install --force
-    npm run start
+    git clone https://github.com/ducdevday/Video-Editor.git
 ```
 
--   **Bước 5:** Tại thư mục server, chạy lệnh sau để start backend:
+-   **Bước 4:** Di chuyển vào thư mục chứa dự án và file docker-compose.yml:
 
 ```
-    npm install --force
-    npm run dev
+    cd Video-Editor/
 ```
+
+-   **Bước 5:** Chạy docker container:
+
+```
+    docker-compose up
+```
+
+-   **Bước 6:** Mở docker desktop
+-   **Bước 7:** Chọn port của client để chạy ứng dụng
