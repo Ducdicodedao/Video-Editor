@@ -10,6 +10,8 @@ function MyVideo({ route }) {
     const videoInRedux = videoState.video;
     const audioInRedux = videoState.audio;
     const loading = useSelector((state) => state.video.loading);
+    const renderData = useSelector((state) => state.video.renderVideo);
+
     const [frame, setFrame] = useState(0);
     const [isPlay, setIsPlay] = useState(true);
     const [isSplit, setIsSplit] = useState(false);
@@ -151,7 +153,7 @@ function MyVideo({ route }) {
                             }}
                             onLoadStart={() => {}}
                             // controls
-                            autoPlay={true}
+                            autoPlay={isPlay}
                             ref={videoRef}
                             style={{ width: '100%', height: '100%' }}
                         ></video>

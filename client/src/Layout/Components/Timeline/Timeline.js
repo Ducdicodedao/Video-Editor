@@ -177,8 +177,8 @@ function TimeLine({
     }, [videoState]);
     useEffect(() => {
         if (renderData !== null) {
+            setIsPlay(false);
             setOpen(true);
-            videoRef.current.pause();
         }
     }, []);
     return (
