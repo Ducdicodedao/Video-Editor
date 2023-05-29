@@ -16,24 +16,13 @@ function MyVideo({ route }) {
     const [isPlay, setIsPlay] = useState(true);
     const [isSplit, setIsSplit] = useState(false);
     const [isChangeVideo, setIsChangeVideo] = useState(false);
-    const [videos, setVideos] = useState([]);
+    // const [videos, setVideos] = useState([]);
     const [videoSrc, setVideoSrc] = useState(0);
     const [audioSrc, setAudioSrc] = useState(null);
     const [isDragDrop, setIsDragDrop] = useState(false);
 
     useEffect(() => {
         if (!isSplit) {
-            setVideos(
-                videoState.video.map((data) => {
-                    return {
-                        id: data?.name,
-                        start: 0,
-                        end: data?.duration,
-                        content: data?.name,
-                        url: data?.url,
-                    };
-                }),
-            );
         } else {
             setIsSplit(false);
         }
@@ -57,7 +46,7 @@ function MyVideo({ route }) {
     };
     useEffect(() => {
         let check = 0;
-        for (var element of videos) {
+        for (var element of videoInRedux) {
             if (frame >= element?.start && frame < element?.end) {
                 if (element !== videoSrc) {
                     setVideoSrc(element);
@@ -73,7 +62,7 @@ function MyVideo({ route }) {
         }
         // setVideoSrc(videos[0]);
         // setIsChangeVideo(true);
-    }, [videos, frame]);
+    }, [videoInRedux, frame]);
     useEffect(() => {
         let count = 0;
         for (var i of audioInRedux) {
@@ -111,7 +100,6 @@ function MyVideo({ route }) {
             // audioRef.current.currentTime = frame - audioSrc?.start;
         }
     }, [frame]);
-    console.log(loading);
     return (
         <Stack direction="column" sx={{ position: 'absolute', left: '8%', width: '1100px', top: '0' }}>
             {loading === true ? (
@@ -168,8 +156,6 @@ function MyVideo({ route }) {
                 videoState={videoState}
                 videoSrc={videoSrc}
                 frame={frame}
-                videos={videos}
-                setVideos={setVideos}
                 timeChangeHandler={timeChangeHandler}
                 isSplit={isSplit}
                 setIsSplit={setIsSplit}

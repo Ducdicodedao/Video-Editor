@@ -55,7 +55,7 @@ export const videoSlice = createSlice({
             state.video.push(action.payload);
         },
         selectVideoStock: (state, action) => {
-            state.video.push(action.payload);
+            state.video.push({ ...action.payload, start: 0, end: action.payload.duration });
             if (state.video.length === 1) {
             }
             state.totalDuration += parseFloat(action.payload.duration);
@@ -69,6 +69,9 @@ export const videoSlice = createSlice({
         },
         updateAudio: (state, action) => {
             state.audio = action.payload;
+        },
+        updateVideo: (state, action) => {
+            state.video = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -171,7 +174,7 @@ export const videoSlice = createSlice({
         });
         builder.addCase(uploadAudio.fulfilled, (state, action) => {
             state.loading = false;
-            state.audio.push({ ...action.payload, start: 0 });
+            state.audio.push({ ...action.payload, start: 0, end: action.payload.duration });
             state.totalDuration += parseFloat(action.payload.duration);
         });
     },
@@ -185,5 +188,6 @@ export const {
     updateAudio,
     setRenderVideo,
     removeVideo,
+    updateVideo,
 } = videoSlice.actions;
 export default videoSlice.reducer;
