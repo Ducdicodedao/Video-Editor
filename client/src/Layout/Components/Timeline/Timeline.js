@@ -8,6 +8,7 @@ import {
     renderVideo,
     setRenderVideo,
     splitVideo,
+    updateVideo,
     uploadAudio,
     uploadFile,
 } from '~/app/editorSlice';
@@ -25,9 +26,6 @@ function TimeLine({
     setFrame,
     videoState,
     frame,
-    videos,
-    setVideos,
-    videoSrc,
     timeChangeHandler,
     setIsSplit,
     isSplit,
@@ -41,8 +39,8 @@ function TimeLine({
     const [itemSelector, setItemSelector] = useState(null);
     const [open, setOpen] = useState(false);
     const handleOpen = () => {
-        if (videos.length > 0) {
-            dispatch(setRenderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+        if (videoState.video.length > 0) {
+            dispatch(setRenderVideo({ videos: videoState.video, audio: videoState.audio, videoState: videoState }));
         }
         setOpen(true);
     };
@@ -53,13 +51,12 @@ function TimeLine({
         dispatch(setRenderVideo(null));
     };
     const items = videoState.video.map((data) => {
-        const video = videos.filter((e) => e.id === data.name);
         return {
-            id: video[0]?.id,
+            id: data._id,
             style: 'height:20px;font-size:12px',
-            start: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.start * timeValue,
-            end: new Date('Fri Apr 14 2023 00:00:00').getTime() + video[0]?.end * timeValue,
-            content: video[0]?.content,
+            start: new Date('Fri Apr 14 2023 00:00:00').getTime() + data.start * timeValue,
+            end: new Date('Fri Apr 14 2023 00:00:00').getTime() + data.end * timeValue,
+            content: data.name,
         };
     });
     const handleChange = async (event) => {
@@ -89,31 +86,31 @@ function TimeLine({
     const splitHandler = () => {
         console.log(itemSelector);
         if (itemSelector !== null) {
-            const temp = videos.filter((data) => data.id === itemSelector);
-            const video = videoState.video.filter((data) => data.name === temp[0].content);
-            const removeOriginalVideo = videos.filter((data) => data.id !== itemSelector);
+            const temp = videoState.video.filter((data) => data._id === itemSelector);
+            // const video = videoState.video.filter((data) => data.name === temp[0].content);
+            const removeOriginalVideo = videoState.video.filter((data) => data._id !== itemSelector);
             removeOriginalVideo.push({
-                id: temp[0].content,
+                _id: temp[0]._id,
                 start: temp[0].start,
                 end: frame,
-                content: temp[0].content,
+                name: temp[0].name,
                 url: temp[0].url,
             });
             removeOriginalVideo.push({
-                id: temp[0].content + ' source2',
+                _id: temp[0]._id + ' source2',
                 start: frame,
                 end: temp[0].end,
-                content: temp[0].content,
+                name: temp[0].name + ' 2',
                 url: temp[0].url,
                 frameSkip: frame,
             });
             setIsSplit(true);
-            setVideos(removeOriginalVideo);
-            dispatch(splitVideo({ name: video[0].name + ' source2', url: video[0].url, duration: video[0].duration }));
+            console.log(removeOriginalVideo);
+            dispatch(updateVideo(removeOriginalVideo));
         }
     };
     const handleRender = () => {
-        dispatch(renderVideo({ videos: videos, audio: videoState.audio, videoState: videoState }));
+        dispatch(renderVideo({ videos: videoState.video, audio: videoState.audio, videoState: videoState }));
     };
     var options = {
         width: '1200px',
@@ -134,15 +131,16 @@ function TimeLine({
         },
         onMove: function (item, callback) {
             const temp = [];
-            for (let index = 0; index < videos.length; index++) {
-                if (videos[index].id === item.id) {
-                    videos[index].start = new Date(item.start).getMinutes() + new Date(item.start).getSeconds() / 60;
-                    videos[index].end = new Date(item.end).getMinutes() + new Date(item.end).getSeconds() / 60;
+            for (let index = 0; index < videoState.video.length; index++) {
+                const tempItem = { ...videoState.video[index] };
+                if (videoState.video[index]._id === item.id) {
+                    tempItem.start = new Date(item.start).getMinutes() + new Date(item.start).getSeconds() / 60;
+                    tempItem.end = new Date(item.end).getMinutes() + new Date(item.end).getSeconds() / 60;
                 }
-                temp.push(videos[index]);
+                temp.push(tempItem);
             }
-            setVideos(temp);
-
+            // console.log(temp);
+            dispatch(updateVideo(temp));
             if (item.content != null) {
                 callback(item); // send back adjusted item
             } else {
