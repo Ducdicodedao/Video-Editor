@@ -12,7 +12,7 @@
 1. Nguyễn Minh Đức - MSSV: 2011461
 2. Vũ Thanh Sang - MSSV: 20110555
 ## Giao diện và cách sử dụng 
--    Trang Media: Đây là nơi lưu trữ các video, audio có sẵn của hệ thống, video mà người dùng lưu trữ,...
+1. Trang Media: Đây là nơi lưu trữ các video, audio có sẵn của hệ thống, video mà người dùng lưu trữ,...
 + Chức năng chọn video hoặc audio:
 Khi nhấn chọn video hoặc audio
    
@@ -34,7 +34,7 @@ Bước 2: Chọn video cần add và nhấn nút open
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture3_peyy6d.png)
 
-+ Trang audio: Đây là nơi lưu trữ audio mà người dùng đã tải lên
+2. Trang audio: Đây là nơi lưu trữ audio mà người dùng đã tải lên
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture5_mkr9hm.png)
 
@@ -50,9 +50,10 @@ Bước 2: Chọn audio cần add và nhấn nút open
 + sau khi chọn xong
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529554/Picture7_hgonav.png)
-
-- Chức năng tương tác với thanh trượt:
-Với mỗi video đã được thêm vào thanh trượt, người dùng có thể cắt video, kéo thả để điều chỉnh độ ưu tiên, thứ tự xuất hiện, thời gian xuất hiện, xóa bỏ video
+3. Thanh timeline
+- Chức năng tương tác với timeline:
+  
+Với mỗi video đã được thêm vào thanh timline, người dùng có thể cắt video, kéo thả để điều chỉnh độ ưu tiên, thứ tự xuất hiện, thời gian xuất hiện, xóa bỏ video
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529555/Picture12_yh8ypf.png)
 
