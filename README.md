@@ -38,7 +38,7 @@ Bước 2: Chọn video cần add và nhấn nút open
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture5_mkr9hm.png)
 
--        Chức năng thêm audio
+- Chức năng thêm audio
 Bước 1: Chọn nút add audio, một dialog hiện lên
 
 Bước 2: Chọn audio cần add và nhấn nút open
@@ -50,6 +50,28 @@ Bước 2: Chọn audio cần add và nhấn nút open
 - sau khi chọn xong
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529554/Picture7_hgonav.png)
+
+- Chức năng tương tác với thanh trượt:
+Với mỗi video đã được thêm vào thanh trượt, người dùng có thể cắt video, kéo thả để điều chỉnh độ ưu tiên, thứ tự xuất hiện, thời gian xuất hiện, xóa bỏ video
+
+![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529555/Picture12_yh8ypf.png)
+
+Ở dây người dùng có thể kéo và điều chỉnh thứ tự xuất hiện của video cũng như thực hiện một số chức năng như concatenate , cut, ...
+
+- Chức năng tải xuống / lưu trữ video:
+
+Bước 1: Chọn nút download section
+
+Bước 2: Chọn nút render
+
+Bước 3: Tùy chọn tải về máy hoặc lưu trữ vào tải khoản
+
+![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529555/Picture13_s1f9ez.png)
+
+![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529555/Picture14_yuf33m.png)
+
+![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529555/Picture15_yozqts.png)
+
 ## Cách deploy project
 
 -   **Bước 1:** Cài đặt git.
