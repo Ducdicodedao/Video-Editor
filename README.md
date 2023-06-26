@@ -59,7 +59,7 @@ Với mỗi video đã được thêm vào thanh timline, người dùng có th�
 
 Video minh họa
 
-https://res.cloudinary.com/dgfsdhshs/video/upload/v1687790889/Studio_Project_V1_w7836p.mp4
+![alt text](https://res.cloudinary.com/dgfsdhshs/video/upload/v1687790889/Studio_Project_V1_w7836p.mp4)
 
 4. Render và dowload
 
