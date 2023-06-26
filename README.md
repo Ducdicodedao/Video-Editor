@@ -57,6 +57,8 @@ Với mỗi video đã được thêm vào thanh timline, người dùng có th�
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529555/Picture12_yh8ypf.png)
 
+4. Render và dowload
+
 Ở dây người dùng có thể kéo và điều chỉnh thứ tự xuất hiện của video cũng như thực hiện một số chức năng như concatenate , cut, ...
 
 - Chức năng tải xuống / lưu trữ video:
