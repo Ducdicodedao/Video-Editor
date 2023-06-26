@@ -15,26 +15,26 @@
 -    Trang Media: Đây là nơi lưu trữ các video, audio có sẵn của hệ thống, video mà người dùng lưu trữ,...
 -    Chức năng chọn video hoặc audio:
 Khi nhấn chọn video hoặc audio
-  
-  ➢ Video hoặc audio sẽ được thêm vô video player và đồng thời thêm vào thanh trượt video.
+   
+- Video hoặc audio sẽ được thêm vô video player và đồng thời thêm vào thanh trượt video.
   
   ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture1_m3mkhu.png)
   
-Sau khi chọn xong
+- Sau khi chọn xong
 
   ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture4_hbk3uf.png)
   
--        Chức năng thêm media
+Chức năng thêm media
 
 Bước 1: Chọn nút add media, một dialog hiện lên
 
 Bước 2: Chọn video cần add và nhấn nút open
 
-Video được thêm vô video player và đồng thời thêm vô thanh trượt video.
+- Video được thêm vô video player và đồng thời thêm vô thanh trượt video.
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture3_peyy6d.png)
 
--        Trang audio: Đây là nơi lưu trữ audio mà người dùng đã tải lên
+- Trang audio: Đây là nơi lưu trữ audio mà người dùng đã tải lên
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture5_mkr9hm.png)
 
@@ -43,11 +43,11 @@ Bước 1: Chọn nút add audio, một dialog hiện lên
 
 Bước 2: Chọn audio cần add và nhấn nút open
 
-        ➢ Audio được thêm vô video player, thanh trượt video và danh sách audio tại trang Audio
+➢ Audio được thêm vô video player, thanh trượt video và danh sách audio tại trang Audio
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture6_ztufmw.png)
 
-sau khi chọn xong
+- sau khi chọn xong
 
 ![alt text](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529554/Picture7_hgonav.png)
 ## Cách deploy project
