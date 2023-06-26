@@ -11,7 +11,12 @@
 
 1. Nguyễn Minh Đức - MSSV: 2011461
 2. Vũ Thanh Sang - MSSV: 20110555
-
+## Giao diện và cách sử dụng 
+-    Trang Media: Đây là nơi lưu trữ các video, audio có sẵn của hệ thống, video mà người dùng lưu trữ,...
+-    Chức năng chọn video hoặc audio:
+-     + Khi nhấn chọn video hoặc audio
+        ➢ Video hoặc audio sẽ được thêm vô video player và đồng thời thêm vào thanh trượt video.
+  ![alt text]([https://raw.githubusercontent.com/username/projectname/branch/path/to/img.png](https://res.cloudinary.com/dgfsdhshs/image/upload/v1687529553/Picture1_m3mkhu.png))
 ## Cách deploy project
 
 -   **Bước 1:** Cài đặt git.
